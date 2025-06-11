@@ -1,5 +1,5 @@
 package bean;
 
-public class AA {
+public class Test {
 
 }
