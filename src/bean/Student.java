@@ -4,7 +4,6 @@ package bean;
 public class Student implements java.io.Serializable{
 
 
-
 private String no;
 private String name;
 private int entYear;
