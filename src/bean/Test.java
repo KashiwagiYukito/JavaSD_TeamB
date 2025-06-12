@@ -1,5 +1,6 @@
 package bean;
 
+
 public class Test implements java.io.Serializable {
 
     private int no;

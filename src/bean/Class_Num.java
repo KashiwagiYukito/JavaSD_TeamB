@@ -1,5 +1,6 @@
 package bean;
 
+
 public class Class_Num implements java.io.Serializable {
 
     private String schoolCd;
