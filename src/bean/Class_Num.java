@@ -10,7 +10,7 @@ public class Class_Num implements java.io.Serializable {
         return schoolCd;
     }
 
-    // 学校コードの設定
+    // 学校コードの
     public void setSchoolCd(String schoolCd) {
         this.schoolCd = schoolCd;
     }
