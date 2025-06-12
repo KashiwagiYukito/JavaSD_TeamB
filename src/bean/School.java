@@ -10,6 +10,7 @@ public String getCd() {
     return cd;
 }
 
+
 public void setCd(String cd) {
     this.cd = cd;
 }
