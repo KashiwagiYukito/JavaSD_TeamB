@@ -20,7 +20,7 @@ public class Class_NumDAO extends DAO {
 	
 		while (rs.next()) {
 			Class_Num order = new Class_Num();
-		    order.setSchoolCd(rs.getInt("SCHOOL_CD"));
+		    order.setSchoolCd(rs.getString("SCHOOL_CD"));
 		    order.setClassNum(rs.getInt("CLASS_NUM"));
 		    list.add(order);
 		}

@@ -62,7 +62,7 @@ public class Student implements java.io.Serializable{
 	}
 
 	//在学しているかどうかを設定
-	public void setAttend(boolean isAttend) {
+	public void setisAttend(boolean isAttend) {
 	    this.isAttend = isAttend;
 	}
 
