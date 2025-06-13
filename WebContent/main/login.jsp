@@ -8,7 +8,7 @@
 	<style>
     body {
         font-family: 'Meiryo', sans-serif;
-        background-color: #f2f2f2;
+        background-color: #ffffff;
         margin: 0;
         height: 100vh;
         display: flex;
@@ -17,65 +17,74 @@
     }
 
     .login-box {
-        width: 360px;
+        width: 600px; /* ⬅ 横幅さらに拡大 */
         background-color: white;
+        border: 1px solid #ccc;
         border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
     }
 
     .login-header {
         background-color: #e0e0e0;
-        padding: 15px;
+        padding: 16px;
         text-align: center;
+        border-bottom: 1px solid #ccc;
     }
 
     .login-header h2 {
         margin: 0;
-        font-size: 18px;
-        color: #333;
+        font-size: 20px;
+        color: #444;
     }
 
     .login-form {
-        padding: 25px;
+        padding: 32px;
     }
 
     .form-group {
         position: relative;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
 
     .form-group input[type="text"],
     .form-group input[type="password"] {
         width: 100%;
-        padding: 25px 10px 10px 10px; /* 上に余白を追加してラベルのスペースを確保 */
-        font-size: 14px;
+        padding: 24px 10px 10px 10px;
+        font-size: 15px;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-        background-color: #e6f4fa; /* 水色の背景 */
+        background-color: #f0f8ff; /* ⬅ 入力欄に薄い青色背景 */
     }
 
     .form-group label {
         position: absolute;
-        top: 6px;
-        left: 10px;
+        top: 8px;
+        left: 12px;
         font-size: 12px;
         color: #777;
         pointer-events: none;
     }
 
     .show-password {
+        text-align: center;
         font-size: 14px;
-        margin-bottom: 18px;
+        margin-bottom: 22px;
         color: #333;
     }
 
+    .show-password input[type="checkbox"] {
+        transform: scale(1.1);
+        margin-right: 6px;
+    }
+
     .login-button {
-        width: 100%;
+        display: block;
+        margin: 0 auto;
         background-color: #337ab7;
         border: none;
-        padding: 10px;
+        padding: 10px 28px;
         color: white;
         font-size: 16px;
         border-radius: 4px;
@@ -92,6 +101,8 @@
         margin-top: 10px;
     }
 </style>
+
+
 
 
 
@@ -137,6 +148,9 @@
         }
     </script>
 </body>
+
+
+
 
 
 </html>
