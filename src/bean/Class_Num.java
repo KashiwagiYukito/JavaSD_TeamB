@@ -2,7 +2,9 @@ package bean;
 
 public class Class_Num implements java.io.Serializable {
 
+	//学校コード
     private String schoolCd;
+    //クラス番号
     private int classNum;
 
     // 学校コードの取得

@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 public class Teacher implements Serializable {
 
+	//教員ID
     private String id;
+    //パスワード
     private String password;
+    //教師の名前
     private String name;
+    //学校コード
     private String schoolCd;
 
     //教師IDの取得
