@@ -2,15 +2,15 @@ package bean;
 
 public class Class_Num implements java.io.Serializable {
 
-    private int schoolCd;
+    private String schoolCd;
     private int classNum;
 
     // 学校コードの取得
-    public int getSchoolCd() {
+    public String getSchoolCd() {
         return schoolCd;
     }
     // 学校コードの設定
-    public void setSchoolCd(int schoolCd) {
+    public void setSchoolCd(String schoolCd) {
         this.schoolCd = schoolCd;
     }
 
