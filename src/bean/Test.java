@@ -2,30 +2,36 @@ package bean;
 
 public class Test implements java.io.Serializable {
 
-    private int no;
-    private String studentNo;
+	//テストの回数
+	private int no;
+	//学籍番号
+    private int studentNo;
+    //科目コード
     private String subjectCd;
+    //学校コード
     private String schoolCd;
+    //点数
     private int point;
-    private String classNum;
+    //クラス番号
+    private int classNum;
 
-    //テストの識別番号（例：第１回、第２回）の取得
+    //テストの回数の取得
     public int getNo() {
         return no;
     }
 
-    //テストの識別番号の設定
+    //テストの回数の設定
     public void setNo(int no) {
         this.no = no;
     }
 
     //学籍番号の取得
-    public String getStudentNo() {
+    public int getStudentNo() {
         return studentNo;
     }
 
     //学籍番号の設定
-    public void setStudentNo(String studentNo) {
+    public void setStudentNo(int studentNo) {
         this.studentNo = studentNo;
     }
 
@@ -59,13 +65,13 @@ public class Test implements java.io.Serializable {
         this.point = point;
     }
 
-    //学年とクラスの取得
-    public String getClassNum() {
+    //クラス番号の取得
+    public int getClassNum() {
         return classNum;
     }
 
-    //学年とクラスの設定
-    public void setClassNum(String classNum) {
+    //クラス番号の設定
+    public void setClassNum(int classNum) {
         this.classNum = classNum;
     }
 }

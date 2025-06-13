@@ -3,21 +3,26 @@ package bean;
 
 public class Student implements java.io.Serializable{
 
-
-	private String no;
+	//学籍番号
+	private int no;
+	//学生名
 	private String name;
+	//入学年度
 	private int entYear;
-	private String classNum;
+	//クラス番号
+	private int classNum;
+	//在学中フラグ
 	private boolean isAttend;
+	//学校コード
 	private String schoolCd;
 
 	//学籍番号の取得
-	public String getNo() {
+	public int getNo() {
 	    return no;
 	}
 
 	//学籍番号の設定
-	public void setNo(String no) {
+	public void setNo(int no) {
 	    this.no = no;
 	}
 
@@ -42,12 +47,12 @@ public class Student implements java.io.Serializable{
 	}
 
 	//学年とクラスの取得
-	public String getClassNum() {
+	public int getClassNum() {
 	    return classNum;
 	}
 
 	//学年とクラスの設定
-	public void setClassNum(String classNum) {
+	public void setClassNum(int classNum) {
 	    this.classNum = classNum;
 	}
 
@@ -56,14 +61,17 @@ public class Student implements java.io.Serializable{
 	    return isAttend;
 	}
 
+	//在学しているかどうかを設定
 	public void setAttend(boolean isAttend) {
 	    this.isAttend = isAttend;
 	}
 
+	//所属している学校の取得
 	public String getSchoolCd() {
 	    return schoolCd;
 	}
 
+	//所属している学校の設定
 	public void setSchoolCd(String schoolCd) {
 	    this.schoolCd = schoolCd;
 	}
