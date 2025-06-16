@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>ログイン画面</title>
 
-	<style>
+<style>
     body {
         font-family: 'Meiryo', sans-serif;
         background-color: #ffffff;
@@ -17,7 +17,7 @@
     }
 
     .login-box {
-        width: 600px; /* ⬅ 横幅さらに拡大 */
+        width: 600px;
         background-color: white;
         border: 1px solid #ccc;
         border-radius: 8px;
@@ -26,7 +26,7 @@
     }
 
     .login-header {
-        background-color: #e0e0e0;
+        background-color: #f2f2f2; /* ⬅ 薄い灰色 */
         padding: 16px;
         text-align: center;
         border-bottom: 1px solid #ccc;
@@ -55,7 +55,7 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-        background-color: #f0f8ff; /* ⬅ 入力欄に薄い青色背景 */
+        background-color: #f0f8ff;
     }
 
     .form-group label {
@@ -80,20 +80,21 @@
     }
 
     .login-button {
-        display: block;
-        margin: 0 auto;
-        background-color: #337ab7;
-        border: none;
-        padding: 10px 28px;
-        color: white;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+    display: block;
+    margin: 0 auto;
+    background-color: #007bff; /* ⬅ 明るい青 */
+    border: none;
+    padding: 10px 28px;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-    .login-button:hover {
-        background-color: #286090;
-    }
+.login-button:hover {
+    background-color: #357ab8; /* ⬅ 少し濃い青で hover */
+}
+
 
     .error-message {
         color: red;
@@ -101,6 +102,7 @@
         margin-top: 10px;
     }
 </style>
+
 
 
 
