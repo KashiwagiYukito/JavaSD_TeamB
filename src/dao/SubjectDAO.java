@@ -1,30 +1,33 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
+import bean.Subject;
+
 public class SubjectDAO extends DAO {
+    public List<Subject> findBySchoolCd(String schoolCd) throws Exception {
+        List<Subject> list = new ArrayList<>();
 
-	public Subject(bean) get(String cd, school school){
-		subject subject = new subject();
+        try (Connection con = getConnection()) {
+            String sql = "SELECT * FROM subject WHERE schoolcd = ? ORDER BY cd DESC";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, schoolCd);
 
-		retrun subject
-	}
+            ResultSet rs = st.executeQuery();
 
-	public List<Subject> fillter(school School){
-		List<Subject> list = new ArrayList<Subject>();
+            while (rs.next()) {
+                Subject order = new Subject();
+                order.setSchoolCd(rs.getString("schoolcd"));
+                order.setCd(rs.getString("cd"));
+                order.setName(rs.getString("name"));
+                list.add(order); 
+            }
+        }
 
-		retrun list;
-	}
-
-	public boolean save(subject Subject){
-		boolean isSave = false;
-
-		retrun isSave;
-	}
-
-	public boolean delete(subject Subject){
-		boolean isDelete = false;
-
-		retrun isDelete;
-	}
+        return list;
+    }
 }

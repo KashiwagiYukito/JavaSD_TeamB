@@ -13,9 +13,9 @@ public class Class_NumDAO extends DAO {
 		List<Class_Num> list = new ArrayList<>();
 	
 	try (Connection con = getConnection()) {
-		String sql = "SELECT * FROM Class_Num WHERE school_cd = ? ORDER BY CLASS_NUM DESC";
+		String sql = "SELECT * FROM CLASS_NUM WHERE CLASS_NUM = ? ORDER BY SCHOOL_CD ASC";
 	PreparedStatement st = con.prepareStatement(sql);
-		st.setInt(1, Class_Num);
+		st.setInt(1,Class_Num);
 		ResultSet rs = st.executeQuery();
 	
 		while (rs.next()) {
