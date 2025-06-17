@@ -67,14 +67,14 @@
     </style>
 </head>
 <body>
-    <div class="full-header">得点管理システム</div>
+
 
     <div class="container">
         <div class="section-title">ログアウト</div>
 
         <div class="message">ログアウトしました</div>
 
-        <div class="login-link"><a href="Login">ログイン</a></div>
+        <div class="login.jsp"><a href="login.jsp">ログイン</a></div>
     </div>
 </body>
 </html>
