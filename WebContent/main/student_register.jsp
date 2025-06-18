@@ -19,22 +19,11 @@
         <br>
 
         <label for="enrollmentYear">入学年度:</label>
-        <select id="enrollmentYear" name="enrollmentYear">
-            <%
-                int currentYear = java.time.Year.now().getValue();
-                for (int year = currentYear - 10; year <= currentYear + 10; year++) {
-            %>
-                <option value="<%= year %>"><%= year %></option>
-            <% } %>
-        </select>
+        <input type="text" id="enrollmentYear" name="enrollmentYear" maxlength="30" required>
         <br>
 
         <label for="classNum">クラス:</label>
-        <select id="classNum" name="classNum">
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-        </select>
+        <input type="text" id="classNum" name="classNum" maxlength="30" required>
         <br>
 
         <input type="submit" value="登録">
