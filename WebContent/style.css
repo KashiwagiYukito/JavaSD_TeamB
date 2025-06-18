@@ -1,0 +1,54 @@
+/* ログイン全体のボックス */
+.login-box {
+    width: 360px;
+    margin: 80px auto;
+    padding: 40px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ヘッダー */
+.login-header h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 入力フィールド共通 */
+.form-control {
+    height: 45px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+/* チェックボックスラベル */
+.show-password {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+/* ログインボタン */
+.login-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: red;
+    text-align: center;
+    font-size: 14px;
+}
