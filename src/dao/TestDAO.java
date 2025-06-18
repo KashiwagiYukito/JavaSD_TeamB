@@ -7,103 +7,128 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.Test;
-import bean.Student;
-import bean.Subject;
-import bean.School;
 
+/**
+ * TestDAO
+ * テスト得点情報（TESTテーブル）に対するデータアクセス処理を行うクラスです。
+ */
 public class TestDAO extends DAO {
 
-    // ① フィルター検索
-    public List<Test> findByFilter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
+    /**
+     * テスト得点情報をすべて取得します。
+     * @return List<Test> テスト得点情報リスト
+     * @throws Exception データベース操作時の例外
+     */
+    public List<Test> findAll() throws Exception {
         List<Test> list = new ArrayList<>();
-
-        try (Connection con = getConnection()) {
-            String sql = "SELECT t.no, t.subjectcd, t.schoolcd, t.point, t.classnum, " +
-                         "s.name AS student_name, s.entyear, s.classnum AS student_classnum, " +
-                         "sub.name AS subject_name, sch.name AS school_name " +
-                         "FROM Test t " +
-                         "JOIN Student s ON t.no = s.no " +
-                         "JOIN Subject sub ON t.subjectcd = sub.subjectcd " +
-                         "JOIN School sch ON t.schoolcd = sch.schoolcd " +
-                         "WHERE s.entyear = ? AND s.classnum = ? " +
-                         "AND t.subjectcd = ? AND t.no = ? AND t.schoolcd = ?";
-
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, entYear);
-            st.setString(2, classNum);
-            st.setString(3, subject.getSubjectCd());
-            st.setInt(4, num);
-            st.setString(5, school.getSchoolCd());
-
-            ResultSet rs = st.executeQuery();
-
+        String sql = "SELECT * FROM TEST";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Test test = new Test();
-                test.setStudentNo(rs.getInt("no"));
-                test.setSubjectCd(rs.getString("subjectcd"));
-                test.setSchoolCd(rs.getString("schoolcd"));
-                test.setPoint(rs.getInt("point"));
-                test.setClassNum(rs.getInt("classnum"));
-
-                Student student = new Student();
-                student.setNo(rs.getInt("no"));
-                student.setName(rs.getString("student_name"));
-                student.setEntYear(rs.getInt("entyear"));
-                student.setClassNum(rs.getString("student_classnum"));
-                test.setStudent(student);
-
-                Subject sub = new Subject();
-                sub.setSubjectCd(rs.getString("subjectcd"));
-                sub.setName(rs.getString("subject_name"));
-                test.setSubject(sub);
-
-                School sch = new School();
-                sch.setSchoolCd(rs.getString("schoolcd"));
-                sch.setName(rs.getString("school_name"));
-                test.setSchool(sch);
-
-                list.add(test);
+                Test t = new Test();
+                t.setStudentNo(rs.getString("STUDENT_NO"));
+                t.setSubjectCd(rs.getString("SUBJECT_CD"));
+                t.setSchoolCd(rs.getString("SCHOOL_CD"));
+                t.setNo(rs.getInt("NO"));
+                t.setPoint(rs.getInt("POINT"));
+                t.setClassNum(rs.getString("CLASS_NUM"));
+                list.add(t);
             }
         }
-
         return list;
     }
 
-    // ② 保存（Insert）
-    public boolean save(List<Test> list) throws Exception {
-        try (Connection con = getConnection()) {
-            String sql = "INSERT INTO Test (no, subjectcd, schoolcd, point, classnum) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement st = con.prepareStatement(sql);
-
-            for (Test test : list) {
-                st.setInt(1, test.getStudentNo());
-                st.setString(2, test.getSubjectCd());
-                st.setString(3, test.getSchoolCd());
-                st.setInt(4, test.getPoint());
-                st.setInt(5, test.getClassNum());
-                st.addBatch();
+    /**
+     * 主キー（学生番号＋科目コード＋NO）でテスト得点情報を1件取得します。
+     * @param studentNo 学生番号
+     * @param subjectCd 科目コード
+     * @param no テスト番号
+     * @return Test テスト得点情報（見つからない場合はnull）
+     * @throws Exception データベース操作時の例外
+     */
+    public Test findById(String studentNo, String subjectCd, int no) throws Exception {
+        String sql = "SELECT * FROM TEST WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND NO = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, studentNo);
+            ps.setString(2, subjectCd);
+            ps.setInt(3, no);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Test t = new Test();
+                    t.setStudentNo(rs.getString("STUDENT_NO"));
+                    t.setSubjectCd(rs.getString("SUBJECT_CD"));
+                    t.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    t.setNo(rs.getInt("NO"));
+                    t.setPoint(rs.getInt("POINT"));
+                    t.setClassNum(rs.getString("CLASS_NUM"));
+                    return t;
+                }
             }
+        }
+        return null;
+    }
 
-            int[] result = st.executeBatch();
-            return result.length == list.size();
+    /**
+     * テスト得点情報を追加します。
+     * @param t 追加するテスト得点情報
+     * @throws Exception データベース操作時の例外
+     */
+    public void insert(Test t) throws Exception {
+        String sql = "INSERT INTO TEST (STUDENT_NO, SUBJECT_CD, SCHOOL_CD, NO, POINT, CLASS_NUM) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, t.getStudentNo());
+            ps.setString(2, t.getSubjectCd());
+            ps.setString(3, t.getSchoolCd());
+            ps.setInt(4, t.getNo());
+            ps.setInt(5, t.getPoint());
+            ps.setString(6, t.getClassNum());
+            ps.executeUpdate();
         }
     }
 
-    // ③ 削除
-    public boolean delete(List<Test> list) throws Exception {
-        try (Connection con = getConnection()) {
-            String sql = "DELETE FROM Test WHERE no = ? AND subjectcd = ? AND schoolcd = ?";
-            PreparedStatement st = con.prepareStatement(sql);
+    /**
+     * テスト得点情報を更新します。
+     * @param t 更新後のテスト得点情報
+     * @param oldStudentNo 変更前の学生番号
+     * @param oldSubjectCd 変更前の科目コード
+     * @param oldNo 変更前のテスト番号
+     * @throws Exception データベース操作時の例外
+     */
+    public void update(Test t, String oldStudentNo, String oldSubjectCd, int oldNo) throws Exception {
+        String sql = "UPDATE TEST SET STUDENT_NO = ?, SUBJECT_CD = ?, SCHOOL_CD = ?, NO = ?, POINT = ?, CLASS_NUM = ? WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND NO = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, t.getStudentNo());
+            ps.setString(2, t.getSubjectCd());
+            ps.setString(3, t.getSchoolCd());
+            ps.setInt(4, t.getNo());
+            ps.setInt(5, t.getPoint());
+            ps.setString(6, t.getClassNum());
+            ps.setString(7, oldStudentNo);
+            ps.setString(8, oldSubjectCd);
+            ps.setInt(9, oldNo);
+            ps.executeUpdate();
+        }
+    }
 
-            for (Test test : list) {
-                st.setInt(1, test.getStudentNo());
-                st.setString(2, test.getSubjectCd());
-                st.setString(3, test.getSchoolCd());
-                st.addBatch();
-            }
-
-            int[] result = st.executeBatch();
-            return result.length == list.size();
+    /**
+     * テスト得点情報を削除します。
+     * @param studentNo 学生番号
+     * @param subjectCd 科目コード
+     * @param no テスト番号
+     * @throws Exception データベース操作時の例外
+     */
+    public void delete(String studentNo, String subjectCd, int no) throws Exception {
+        String sql = "DELETE FROM TEST WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND NO = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, studentNo);
+            ps.setString(2, subjectCd);
+            ps.setInt(3, no);
+            ps.executeUpdate();
         }
     }
 }

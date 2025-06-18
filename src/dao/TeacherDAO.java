@@ -8,37 +8,107 @@ import java.util.List;
 
 import bean.Teacher;
 
+/**
+ * TeacherDAO
+ * 教員情報（TEACHERテーブル）に対するデータアクセス処理を行うクラスです。
+ */
 public class TeacherDAO extends DAO {
 
-    // idで先生を検索
-    public List<Teacher> findById(String id) throws Exception {
+    /**
+     * 教員情報をすべて取得します。
+     * @return List<Teacher> 教員情報リスト
+     * @throws Exception データベース操作時の例外
+     */
+    public List<Teacher> findAll() throws Exception {
         List<Teacher> list = new ArrayList<>();
-        try (Connection con = getConnection()) {
-            String sql = "SELECT * FROM Teacher WHERE id = ? ORDER BY id DESC";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, id);
-            ResultSet rs = st.executeQuery();
+        String sql = "SELECT * FROM TEACHER";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Teacher order = new Teacher();
-                order.setId(rs.getString("id"));
-                order.setPassword(rs.getString("password"));
-                order.setName(rs.getString("name"));
-                order.setSchoolCd(rs.getString("schoolcd"));
-                list.add(order);
+                Teacher t = new Teacher();
+                t.setId(rs.getString("ID"));
+                t.setPassword(rs.getString("PASSWORD"));
+                t.setName(rs.getString("NAME"));
+                t.setSchoolCd(rs.getString("SCHOOL_CD"));
+                list.add(t);
             }
         }
         return list;
     }
 
-    // idとpasswordで認証
-    public boolean authenticate(String id, String password) throws Exception {
-        String sql = "SELECT * FROM Teacher WHERE id=? AND password=?";
-        try (Connection con = getConnection()) {
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, id);
-            st.setString(2, password);
-            ResultSet rs = st.executeQuery();
-            return rs.next();
+    /**
+     * 主キー（ID）で教員情報を1件取得します。
+     * @param id 教員ID
+     * @return Teacher 教員情報（見つからない場合はnull）
+     * @throws Exception データベース操作時の例外
+     */
+    public Teacher findById(String id) throws Exception {
+        String sql = "SELECT * FROM TEACHER WHERE ID = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Teacher t = new Teacher();
+                    t.setId(rs.getString("ID"));
+                    t.setPassword(rs.getString("PASSWORD"));
+                    t.setName(rs.getString("NAME"));
+                    t.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    return t;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 教員情報を追加します。
+     * @param t 追加する教員情報
+     * @throws Exception データベース操作時の例外
+     */
+    public void insert(Teacher t) throws Exception {
+        String sql = "INSERT INTO TEACHER (ID, PASSWORD, NAME, SCHOOL_CD) VALUES (?, ?, ?, ?)";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, t.getId());
+            ps.setString(2, t.getPassword());
+            ps.setString(3, t.getName());
+            ps.setString(4, t.getSchoolCd());
+            ps.executeUpdate();
+        }
+    }
+
+    /**
+     * 教員情報を更新します。
+     * @param t 更新後の教員情報
+     * @param oldId 変更前の教員ID
+     * @throws Exception データベース操作時の例外
+     */
+    public void update(Teacher t, String oldId) throws Exception {
+        String sql = "UPDATE TEACHER SET ID = ?, PASSWORD = ?, NAME = ?, SCHOOL_CD = ? WHERE ID = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, t.getId());
+            ps.setString(2, t.getPassword());
+            ps.setString(3, t.getName());
+            ps.setString(4, t.getSchoolCd());
+            ps.setString(5, oldId);
+            ps.executeUpdate();
+        }
+    }
+
+    /**
+     * 教員情報を削除します。
+     * @param id 削除対象の教員ID
+     * @throws Exception データベース操作時の例外
+     */
+    public void delete(String id) throws Exception {
+        String sql = "DELETE FROM TEACHER WHERE ID = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, id);
+            ps.executeUpdate();
         }
     }
 }

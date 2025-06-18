@@ -5,14 +5,20 @@ import java.sql.Connection;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+// DAOクラス...データベースに接続をするためのクラス
 public class DAO {
-	static DataSource ds;
-	public Connection getConnection() throws Exception{
-		if(ds == null){
-			InitialContext ic = new InitialContext();
-			ds = (DataSource) ic.lookup(" jdbc:h2:tcp://localhost/~/ teamB");
-		}
+    // クラス変数：全体で1つだけ、共有データとして保持
+    static DataSource ds;
 
-		return ds.getConnection();
-	}
+    // getConnectionメソッド...DBに接続をするメソッド
+    public Connection getConnection() throws Exception {
+        // 最初の1回だけ実行
+        if (ds == null) {
+            // データベースに接続（JNDI経由）
+            InitialContext ic = new InitialContext();
+            ds = (DataSource) ic.lookup("java:comp/env/jdbc/ teamB");
+        }
+
+        return ds.getConnection();
+    }
 }
