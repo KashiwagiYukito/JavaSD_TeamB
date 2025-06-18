@@ -1,29 +1,20 @@
 package bean;
 
-public class School implements java.io.Serializable{
+public class School {
+    private String cd;
+    private String name;
 
-	//学校コード
-	private String cd;
-	//学校名
-	private String name;
-
-	//学校コードの取得
 	public String getCd() {
-	    return cd;
+		return cd;
 	}
-
-	//学校コードの設定
 	public void setCd(String cd) {
-	    this.cd = cd;
+		this.cd = cd;
 	}
-
-	//学校名の取得
 	public String getName() {
-	    return name;
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	//学校名の設定
-	public void setName(String name) {
-	    this.name = name;
-	}
 }

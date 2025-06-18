@@ -8,63 +8,109 @@ import java.util.List;
 
 import bean.Subject;
 
+/**
+ * SubjectDAO
+ * 科目情報（SUBJECTテーブル）に対するデータアクセス処理を行うクラスです。
+ */
 public class SubjectDAO extends DAO {
-    public Subject findByCdAndSchool(String cd, String schoolCd) throws Exception {
-        try (Connection con = getConnection()) {
-            String sql = "SELECT * FROM subject WHERE cd = ? AND schoolcd = ?";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, cd);
-            st.setString(2, schoolCd);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                Subject subject = new Subject();
-                subject.setSchoolCd(rs.getString("schoolcd"));
-                subject.setCd(rs.getString("cd"));
-                subject.setName(rs.getString("name"));
-                return subject;
-            }
-        }
-        return null;
-    }
 
-    public List<Subject> findBySchoolCd(String schoolCd) throws Exception {
+    /**
+     * 科目情報をすべて取得します。
+     * @return List<Subject> 科目情報リスト
+     * @throws Exception データベース操作時の例外
+     */
+    public List<Subject> findAll() throws Exception {
         List<Subject> list = new ArrayList<>();
-        try (Connection con = getConnection()) {
-            String sql = "SELECT * FROM subject WHERE schoolcd = ? ORDER BY cd DESC";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, schoolCd);
-            ResultSet rs = st.executeQuery();
+        String sql = "SELECT * FROM SUBJECT";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Subject subject = new Subject();
-                subject.setSchoolCd(rs.getString("schoolcd"));
-                subject.setCd(rs.getString("cd"));
-                subject.setName(rs.getString("name"));
-                list.add(subject);
+                Subject s = new Subject();
+                s.setSchoolCd(rs.getString("SCHOOL_CD"));
+                s.setCd(rs.getString("CD"));
+                s.setName(rs.getString("NAME"));
+                list.add(s);
             }
         }
         return list;
     }
 
-    public boolean save(Subject subject) throws Exception {
-        try (Connection con = getConnection()) {
-            String sql = "INSERT INTO subject (schoolcd, cd, name) VALUES (?, ?, ?)";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, subject.getSchoolCd());
-            st.setString(2, subject.getCd());
-            st.setString(3, subject.getName());
-            int result = st.executeUpdate();
-            return result == 1;
+    /**
+     * 主キー（学校コード＋科目コード）で科目情報を1件取得します。
+     * @param schoolCd 学校コード
+     * @param cd 科目コード
+     * @return Subject 科目情報（見つからない場合はnull）
+     * @throws Exception データベース操作時の例外
+     */
+    public Subject findById(String schoolCd, String cd) throws Exception {
+        String sql = "SELECT * FROM SUBJECT WHERE SCHOOL_CD = ? AND CD = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, schoolCd);
+            ps.setString(2, cd);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Subject s = new Subject();
+                    s.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    s.setCd(rs.getString("CD"));
+                    s.setName(rs.getString("NAME"));
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 科目情報を追加します。
+     * @param s 追加する科目情報
+     * @throws Exception データベース操作時の例外
+     */
+    public void insert(Subject s) throws Exception {
+        String sql = "INSERT INTO SUBJECT (SCHOOL_CD, CD, NAME) VALUES (?, ?, ?)";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, s.getSchoolCd());
+            ps.setString(2, s.getCd());
+            ps.setString(3, s.getName());
+            ps.executeUpdate();
         }
     }
 
-    public boolean delete(String cd, String schoolCd) throws Exception {
-        try (Connection con = getConnection()) {
-            String sql = "DELETE FROM subject WHERE cd = ? AND schoolcd = ?";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, cd);
-            st.setString(2, schoolCd);
-            int result = st.executeUpdate();
-            return result == 1;
+    /**
+     * 科目情報を更新します。
+     * @param s 更新後の科目情報
+     * @param oldSchoolCd 変更前の学校コード
+     * @param oldCd 変更前の科目コード
+     * @throws Exception データベース操作時の例外
+     */
+    public void update(Subject s, String oldSchoolCd, String oldCd) throws Exception {
+        String sql = "UPDATE SUBJECT SET SCHOOL_CD = ?, CD = ?, NAME = ? WHERE SCHOOL_CD = ? AND CD = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, s.getSchoolCd());
+            ps.setString(2, s.getCd());
+            ps.setString(3, s.getName());
+            ps.setString(4, oldSchoolCd);
+            ps.setString(5, oldCd);
+            ps.executeUpdate();
+        }
+    }
+
+    /**
+     * 科目情報を削除します。
+     * @param schoolCd 学校コード
+     * @param cd 科目コード
+     * @throws Exception データベース操作時の例外
+     */
+    public void delete(String schoolCd, String cd) throws Exception {
+        String sql = "DELETE FROM SUBJECT WHERE SCHOOL_CD = ? AND CD = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, schoolCd);
+            ps.setString(2, cd);
+            ps.executeUpdate();
         }
     }
 }
