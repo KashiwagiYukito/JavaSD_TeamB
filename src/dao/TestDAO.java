@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.School;
+import bean.Test;
 import bean.Student;
 import bean.Subject;
-import bean.Test;
+import bean.School;
 
 public class TestDAO extends DAO {
 
