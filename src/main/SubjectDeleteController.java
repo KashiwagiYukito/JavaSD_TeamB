@@ -29,6 +29,7 @@ public class SubjectDeleteController extends HttpServlet {
 	            dao.delete(schoolCd, subjectCd);
 
 	            // 削除成功 → 一覧画面へリダイレクト
+	            //（仮）
 	            response.sendRedirect(request.getContextPath() + "/SubjectList.action");
 
 
