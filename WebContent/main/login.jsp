@@ -10,7 +10,8 @@
             <h2>ログイン</h2>
         </div>
 
-        <form class="p-4" action="LoginController" method="post">
+        <form action="LoginController" method="post">
+
             <div class="form-wrapper">
                 <!-- ID -->
                 <div class="form-group">
