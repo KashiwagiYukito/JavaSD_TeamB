@@ -10,40 +10,35 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.Student;
 
-@WebServlet("/StudentRegisterServlet")
+@WebServlet("/main/StudentRegisterServlet")
 public class StudentRegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private StudentService studentService = new StudentService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // フォームデータを取得
+        // 入力値の取得
         String studentNo = request.getParameter("studentNo");
         String name = request.getParameter("name");
-        String enrollmentYear = request.getParameter("enrollmentYear");
-        String classNum = request.getParameter("classNum");
+        request.getParameter("enrollmentYear");
+        request.getParameter("classNum");
 
-        // 入力バリデーション（簡易版）
-        if (studentNo == null || studentNo.isEmpty() ||
-            name == null || name.isEmpty() ||
-            enrollmentYear == null || enrollmentYear.isEmpty() ||
-            classNum == null || classNum.isEmpty()) {
-            request.setAttribute("errorMessage", "すべての項目を入力してください。");
-            request.getRequestDispatcher("jsp/student/student_register.jsp").forward(request, response);
+        // バリデーション
+        if (studentNo.isEmpty() || name.isEmpty()) {
+            request.setAttribute("errorMessage", "必須項目を入力してください");
+            request.getRequestDispatcher("student_register.jsp").forward(request, response);
             return;
         }
 
-        // 学生オブジェクト作成
+        // 学生オブジェクトの作成
         Student student = new Student();
 
         // 登録処理
-        StudentService studentService = new StudentService();
         boolean isSuccess = studentService.registerStudent(student);
-
-        // 登録成功時の処理
         if (isSuccess) {
             response.sendRedirect("jsp/student/student_register_done.jsp");
         } else {
-            request.setAttribute("errorMessage", "登録に失敗しました。");
-            request.getRequestDispatcher("jsp/student/student_register.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "登録に失敗しました");
+            request.getRequestDispatcher("student_register.jsp").forward(request, response);
         }
     }
 }
