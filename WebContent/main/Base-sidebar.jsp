@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<jsp:include page="Base-header.jsp" />
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -15,4 +15,3 @@
     <a href="subjectList.jsp">科目管理</a><br>
 </body>
 </html>
-<jsp:include page="Base-footer.jsp" />
