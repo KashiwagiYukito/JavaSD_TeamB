@@ -44,6 +44,19 @@ public class Student {
 	public void setSchoolCd(String schoolCd) {
 		this.schoolCd = schoolCd;
 	}
+	public void setStudentNo(String studentNo) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+	public void setEnrollmentYear(int parseInt) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+	public void setIsAttend(boolean b) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
 
 
 }
