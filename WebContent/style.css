@@ -73,7 +73,7 @@ body.page-login {
     opacity: 1;
 }
 
-/* 「パスワードを表示」チェックボックス */
+/* 「パスワードを表示」チェックボックス です*/
 .show-password {
     display: flex;
     justify-content: center;
