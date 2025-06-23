@@ -3,6 +3,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -39,5 +40,15 @@
     <a href="TestList.action" class="sidebar-link sidebar-sub-link">成績参照</a>
 
     <a href="SubjectList.action" class="sidebar-link">科目管理</a>
+</nav>
+>>>>>>> branch 'master' of https://github.com/KashiwagiYukito/JavaSD_TeamB.git
+=======
+<nav>
+    <a href="mainMenu.jsp">メニュー</a><br><br>
+    <a href="StudentList.action">学生管理</a><br><br>
+    <span>成績管理</span><br>
+    &nbsp;&nbsp;<a href="TestRegist.action">成績登録</a><br><br>
+    &nbsp;&nbsp;<a href="TestList.action">成績参照</a><br><br>
+    <a href="SubjectList.action">科目管理</a><br>
 </nav>
 >>>>>>> branch 'master' of https://github.com/KashiwagiYukito/JavaSD_TeamB.git
