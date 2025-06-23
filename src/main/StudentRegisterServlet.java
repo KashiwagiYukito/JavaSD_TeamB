@@ -56,10 +56,10 @@ public class StudentRegisterServlet extends HttpServlet {
         boolean isSuccess = studentService.registerStudent(student);
 
         if (isSuccess) {
-            response.sendRedirect("student_register_done.jsp");
+            response.sendRedirect("main/student_register_done.jsp");
         } else {
             request.setAttribute("errorMessage", "登録に失敗しました");
-            request.getRequestDispatcher("jsp/student/student_register.jsp").forward(request, response);
+            request.getRequestDispatcher("main/student_register.jsp").forward(request, response);
         }
     }
 }
