@@ -1,15 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>変更完了</title>
+    <title>変更完了</title>
 </head>
 <body>
-    <div class="container">
-        <h2>科目情報変更</h2>
-        <p>変更が完了しました</p>
-        <a href="SubjectList.action">科目一覧へ</a>
-    </div>
+    <h2>科目情報を変更しました</h2>
+    <p>学校コード: ${subject.schoolCd}</p>
+    <p>科目コード: ${subject.cd}</p>
+    <p>新しい科目名: ${subject.name}</p>
+    <a href="SubjectUpdate?action=list">一覧に戻る</a>
 </body>
 </html>
