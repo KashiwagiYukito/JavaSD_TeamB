@@ -1,50 +1,48 @@
+<%-- mainMenu.jsp --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <jsp:include page="Base-header.jsp" />
 
-<!-- ログアウトリンク -->
-<div class="text-end mb-3">
-  <a href="logout.jsp" class="link-secondary fs-6">ログアウト</a>
-</div>
+<%-- ページ全体（サイドバー＋メインコンテンツ）を囲む --%>
+<div class="page-container">
+    <div class="row g-0">
 
-<!-- ✅ メニューラベル（薄い灰色背景） -->
-<div class="mb-4 p-2" style="background-color: #f2f2f2;">
-  <!-- ✅ 画面タイトル追加 -->
-<div class="text-center my-4">
-  <h2 class="fw-bold text-dark">メインメニュー</h2>
-</div>
+        <%-- 左カラム（3/12の幅）：サイドバーを読み込む --%>
+        <div class="col-md-3 col-lg-2">
+            <jsp:include page="Base-sidebar.jsp" />
+        </div>
 
-</div>
+        <%-- 右カラム（9/12の幅）：メインコンテンツ --%>
+        <div class="col-md-9 col-lg-10 main-content">
 
-<!-- メニュー項目 -->
-<div class="row g-4 justify-content-start">
+            <div class="logout-link">
+                <a href="logout.jsp">ログアウト</a>
+            </div>
 
-  <!-- 学生管理 -->
-  <div class="col-md-3 d-flex">
-    <div class="p-4 rounded text-center w-100 h-100" style="background-color: #f8d7da;">
-      <a href="logout.jsp" class="fs-5 text-decoration-underline text-primary">学生管理</a>
+            <div class="menu-title-bar">
+                <h2 class="menu-title">メニュー</h2>
+            </div>
+
+            <div class="row g-4 justify-content-start">
+                <div class="col-md-4">
+                    <div class="menu-card menu-card-student">
+                        <a href="StudentList.action">学生管理</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="menu-card menu-card-grade">
+                        <div class="menu-card-title">成績管理</div>
+                        <a href="TestRegist.action">成績登録</a>
+                        <a href="TestList.action">成績参照</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="menu-card menu-card-subject">
+                        <a href="SubjectList.action">科目管理</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <!-- 成績管理 -->
-  <div class="col-md-3 d-flex">
-    <div class="p-4 rounded text-center w-100 h-100" style="background-color: #d4edda;">
-      <div class="fs-5 fw-bold mb-2 text-dark">成績管理</div>
-      <div class="mb-2">
-        <a href="logout.jsp" class="fs-5 text-decoration-underline text-primary">成績登録</a>
-      </div>
-      <div>
-        <a href="logout.jsp" class="fs-5 text-decoration-underline text-primary">成績参照</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- 科目登録 -->
-  <div class="col-md-3 d-flex">
-    <div class="p-4 rounded text-center w-100 h-100" style="background-color: #e2d6f3;">
-      <a href="logout.jsp" class="fs-5 text-decoration-underline text-primary">科目管理</a>
-    </div>
-  </div>
-
 </div>
 
 <jsp:include page="Base-footer.jsp" />

@@ -143,3 +143,84 @@ body {
     font-weight: 500;
     margin-top: 1.25rem;
 }
+
+
+/* ============================================================================================== */
+/* ===============================================
+   メインメニュー画面のスタイル
+   =============================================== */
+
+.logout-link {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+.logout-link a {
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-decoration: none;
+}
+.logout-link a:hover {
+    text-decoration: underline;
+}
+
+/* 「メニュー」と書かれたグレーのタイトルバー */
+.menu-title-bar {
+    background-color: #f8f9fa; /* 薄い灰色 */
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.menu-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #343a40;
+    text-align: left; /* スクリーンショットに合わせて左揃え */
+    margin: 0;
+}
+
+/* 各メニューカードの共通スタイル */
+.menu-card {
+    padding: 2rem;
+    border-radius: 0.375rem; /* 少し角を丸める */
+    text-align: center;
+    height: 100%;
+    /* 中の要素を縦に並べて中央に配置 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem; /* カード内のリンクなどの間隔 */
+}
+
+/* 成績管理カード内のタイトル文字 */
+.menu-card .menu-card-title {
+    font-size: 1.2rem;
+    font-weight: 700; /* 太字 */
+    color: #343a40;
+    margin-bottom: 0.25rem;
+}
+
+/* カード内のリンクの共通スタイル */
+.menu-card a {
+    font-size: 1.1rem;
+    color: #0d6efd;
+    text-decoration: underline;
+    font-weight: 500;
+}
+.menu-card a:hover {
+    color: #0a58ca;
+}
+
+/* 各カードの背景色 */
+.menu-card-student {
+    background-color: #f8d7da; /* ピンク系 */
+}
+.menu-card-grade {
+    background-color: #d4edda; /* 緑系 */
+}
+.menu-card-subject {
+    background-color: #e2e3f3; /* 紫系 */
+}
+
+/* Base-sidebar.jsp はこのメインメニュー画面とは直接関係がないため、
+   今回の修正には含めておりません。 */
