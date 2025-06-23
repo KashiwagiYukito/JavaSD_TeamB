@@ -11,11 +11,13 @@ import javax.servlet.http.HttpSession;
 
 import bean.Student;
 
+
 @WebServlet("/main/StudentRegisterServlet")
 public class StudentRegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private StudentService studentService = new StudentService();
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -27,39 +29,63 @@ public class StudentRegisterServlet extends HttpServlet {
         String enrollmentYear = request.getParameter("enrollmentYear");
         String classNum = request.getParameter("classNum");
 
-        // 学校コードはセッションから取得（ログイン済み前提）
-        HttpSession session = request.getSession();
-        String schoolCd = (String) session.getAttribute("schoolCd");
+        // 学校コードはセッションから取得
+        HttpSession session = request.getSession(false);
+        String schoolCd = (session != null) ? (String) session.getAttribute("schoolCd") : null;
+
+        System.out.println(
+        		  "studentNo=" + studentNo +
+        		  " name=" + name +
+        		  " enrollmentYear=" + enrollmentYear +
+        		  " classNum=" + classNum +
+        		  " schoolCd=" + schoolCd
+        		);
+
 
         // バリデーション
-        if (studentNo == null || studentNo.isEmpty() ||
-            name == null || name.isEmpty() ||
-            enrollmentYear == null || enrollmentYear.isEmpty() ||
-            classNum == null || classNum.isEmpty() ||
-            schoolCd == null || schoolCd.isEmpty()) {
+        if (isNullOrEmpty(studentNo) || isNullOrEmpty(name) ||
+            isNullOrEmpty(enrollmentYear) || isNullOrEmpty(classNum) ||
+            isNullOrEmpty(schoolCd)) {
 
             request.setAttribute("errorMessage", "すべての項目を正しく入力してください");
-            request.getRequestDispatcher("student_register.jsp").forward(request, response);
+            request.getRequestDispatcher("/main/student_register.jsp").forward(request, response);
             return;
         }
 
-        // 学生オブジェクトの作成とプロパティ設定
+        // 整数変換エラー対策
+        int entYear;
+        try {
+            entYear = Integer.parseInt(enrollmentYear);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "入学年度は数字で入力してください");
+            request.getRequestDispatcher("/main/student_register.jsp").forward(request, response);
+            return;
+        }
+
+        // 学生オブジェクト生成
         Student student = new Student();
-        student.setStudentNo(studentNo);
+        student.setNo(studentNo);
         student.setName(name);
-        student.setEnrollmentYear(Integer.parseInt(enrollmentYear));
+        student.setEntYear(entYear);
         student.setClassNum(classNum);
-        student.setIsAttend(true); // ← 在学中を強制的にtrue
+        student.setAttend(true); // 在学中
         student.setSchoolCd(schoolCd);
 
         // 登録処理
         boolean isSuccess = studentService.registerStudent(student);
 
         if (isSuccess) {
-            response.sendRedirect("main/student_register_done.jsp");
+            // 成功→完了画面へ
+            response.sendRedirect(request.getContextPath() + "/main/student_register_done.jsp");
         } else {
-            request.setAttribute("errorMessage", "登録に失敗しました");
-            request.getRequestDispatcher("main/student_register.jsp").forward(request, response);
+            // 失敗→エラー表示で戻す
+            request.setAttribute("errorMessage", "登録に失敗しました（学生番号重複など）");
+            request.getRequestDispatcher("/main/student_register.jsp").forward(request, response);
         }
+    }
+
+    // nullまたは空文字判定のヘルパー
+    private boolean isNullOrEmpty(String str) {
+        return (str == null || str.trim().isEmpty());
     }
 }
