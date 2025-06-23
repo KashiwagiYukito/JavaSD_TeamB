@@ -12,12 +12,18 @@ import javax.servlet.http.HttpSession;
 import bean.Student;
 
 
-@WebServlet("/main/StudentRegisterServlet")
+@WebServlet("/main/Register")
 public class StudentRegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private StudentService studentService = new StudentService();
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // フォーム表示
+        request.getRequestDispatcher("/main/student_register.jsp").forward(request, response);
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
