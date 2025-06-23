@@ -45,6 +45,7 @@ public class LoginController extends HttpServlet {
                 // ログイン成功：セッションに保存し、メインメニューへリダイレクト
                 HttpSession session = request.getSession();
                 session.setAttribute("teacher", teacher);
+                session.setAttribute("schoolCd", teacher.getSchoolCd());
                 response.sendRedirect("mainMenu.jsp");
                 return; // 以降の処理は不要なため終了
             }
