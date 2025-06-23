@@ -7,7 +7,7 @@
   <div class="sidebar-area">
     <jsp:include page="Base-sidebar.jsp" />
   </div>
-  <!-- メイン -->
+  <!-- メイン画面 -->
   <div class="main-menu-main">
     <div class="main-menu-header">
       メニュー
