@@ -7,13 +7,18 @@
 	    <meta charset="UTF-8">
 	    <title>学生管理</title>
 	    <!-- cssの適用 -->
-	     <link rel="stylesheet" type="text/css" href="css/style.css">
+	    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+		<!-- Base-header.jspの適用 -->
+		<jsp:include page="Base-header.jsp" />
+
+		<!-- Base-sidebar.jspの適用 -->
+    	<jsp:include page="Base-sidebar.jsp" />
+
+
 	</head>
 
 	<body>
-
-		<!-- Base-header.jspの適用 -->
-		<%--@ include file="Base-header.jsp" --%>
 
 		<div class="container">
 		    <h2>学生管理</h2>
@@ -55,10 +60,41 @@
 
 	    	</form>
 
+			<c:if test="${not empty studentList}">
+			    <table>
+			        <tr>
+			            <th>入学年度</th>
+			            <th>学生番号</th>
+			            <th>氏名</th>
+			            <th>クラス</th>
+			            <th>在学中</th>
+			            <th>操作</th>
+			        </tr>
+
+			        <c:forEach var="s" items="${studentList}">
+			            <tr>
+			                <td>${s.enrollmentYear}</td>
+			                <td>${s.studentNo}</td>
+			                <td>${s.name}</td>
+			                <td>${s.classNum}</td>
+			                <td>
+
+			                    <c:choose>
+			                        <c:when test="${s.active}">○</c:when>
+			                        <c:otherwise>×</c:otherwise>
+			                    </c:choose>
+
+			                </td>
+			                <td><a href="StudentEditServlet?studentNo=${s.studentNo}">変更</a></td>
+			            </tr>
+			        </c:forEach>
+			    </table>
+			</c:if>
+
 		</div>
 
 	</body>
 	<!-- Base-footer.jspの適用 -->
-	<%--@ include file="Base-footer.jsp" --%>
+	<jsp:include page="Base-footer.jsp" />
 
 </html>

@@ -5,6 +5,14 @@
 
 	    <meta charset="UTF-8">
 	    <title>科目情報削除</title>
+
+
+		<!-- Base-header.jspの適用 -->
+		<jsp:include page="Base-header.jsp" />
+
+		<!-- Base-sidebar.jspの適用 -->
+    	<jsp:include page="Base-sidebar.jsp" />
+
 	</head>
 
 	<body>
