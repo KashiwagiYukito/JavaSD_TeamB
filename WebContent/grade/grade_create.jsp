@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/main/mainMenu.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +9,7 @@
 <body>
 <div class="container">
     <h2>成績登録</h2>
-    <form action="GradeCreateServlet" method="post">
+	<form action="<%=request.getContextPath()%>/Create" method="post">
         <div>
             <label for="student_id">学生:</label>
             <select name="student_id" id="student_id">

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import bean.Test;
 import dao.TestDAO;
 
-@WebServlet("/grade/GradeCreateServlet")
+@WebServlet("/grade/Create")
 public class GradeCreateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
