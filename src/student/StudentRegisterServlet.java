@@ -10,13 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.Student;
-import student.StudentService;
 
 
 @WebServlet("/main/Register")
 public class StudentRegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private StudentService studentService = new StudentService();
+    //private StudentService studentService = new StudentService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -79,17 +78,17 @@ public class StudentRegisterServlet extends HttpServlet {
         student.setSchoolCd(schoolCd);
 
         // 登録処理
-        boolean isSuccess = studentService.registerStudent(student);
+        //boolean isSuccess = studentService.registerStudent(student);
 
-        if (isSuccess) {
+        //if (isSuccess) {
             // 成功→完了画面へ
-            response.sendRedirect(request.getContextPath() + "/main/student_register_done.jsp");
-        } else {
+          //  response.sendRedirect(request.getContextPath() + "/main/student_register_done.jsp");
+        //} else {
             // 失敗→エラー表示で戻す
-            request.setAttribute("errorMessage", "登録に失敗しました（学生番号重複など）");
-            request.getRequestDispatcher("/main/student_register.jsp").forward(request, response);
+          //  request.setAttribute("errorMessage", "登録に失敗しました（学生番号重複など）");
+            //request.getRequestDispatcher("/main/student_register.jsp").forward(request, response);
         }
-    }
+    //}
 
     // nullまたは空文字判定のヘルパー
     private boolean isNullOrEmpty(String str) {

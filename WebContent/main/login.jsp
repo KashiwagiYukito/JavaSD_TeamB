@@ -1,6 +1,6 @@
 <%-- login.jsp --%>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<include page="Base-header.jsp" >
+<%@ include file="/Base-header.jsp" %>
 
 <body>
 
@@ -9,7 +9,7 @@
             <h2>ログイン</h2>
         </div>
 
-        <form action="LoginController" method="post">
+        <form action="<%=request.getContextPath()%>/login" method="post">
             <div class="form-wrapper">
                 <div class="form-group">
                     <input type="text" class="form-control" id="id" name="id"
@@ -50,4 +50,4 @@
         }
     </script>
 </body>
-<include page="Base-footer.jsp" >
+<%@ include file="/Base-footer.jsp" %>
