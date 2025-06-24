@@ -1,4 +1,4 @@
-package main;
+package student;
 
 import javax.servlet.http.HttpServlet;
 
