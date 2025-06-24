@@ -17,7 +17,7 @@
         <p style="color:red;"><%= request.getAttribute("errorMessage") %></p>
     <% } %>
 
-    <form action="<%= request.getContextPath() %>/main/StudentRegisterServlet" method="post">
+    <form action="<%= request.getContextPath() %>/main/Register" method="post">
         <label for="studentNo">学生番号:</label>
         <input type="text" id="studentNo" name="studentNo" maxlength="10" required>
         <br>
