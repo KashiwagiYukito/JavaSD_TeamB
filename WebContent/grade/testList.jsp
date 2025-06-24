@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<jsp:include page="Base-header.jsp" />
+<include page="Base-header.jsp">
 
 <body>
-<jsp:include page="Base-sidebar.jsp" />
+<include page="Base-sidebar.jsp">
     <div class="main-area container" style="margin-top: 50px; max-width: 900px;">
         <div class="search-box p-4 rounded shadow-sm bg-white">
             <div class="mb-4">
@@ -69,4 +69,4 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<jsp:include page="Base-footer.jsp" />
+<include page="Base-footer.jsp">
