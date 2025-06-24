@@ -1,6 +1,5 @@
 <%-- Base-header.jsp --%>
-<%--b --%>
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="ja">
@@ -11,7 +10,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
 </head>
 <body>
-
 <%-- ページ上部のヘッダー --%>
 <header class="app-header">
     <h1>得点管理システム</h1>

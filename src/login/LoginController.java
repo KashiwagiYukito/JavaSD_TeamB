@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import bean.Teacher;
 import dao.TeacherDAO;
 
-@WebServlet("/main/LoginController")
+@WebServlet("/login/LoginController")
 public class LoginController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +46,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("teacher", teacher);
                 session.setAttribute("schoolCd", teacher.getSchoolCd());
-                response.sendRedirect("mainMenu.jsp");
+                response.sendRedirect("/mainMenu.jsp");
                 return; // 以降の処理は不要なため終了
             }
 

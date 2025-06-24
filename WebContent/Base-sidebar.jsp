@@ -1,6 +1,6 @@
 <%-- Base-sidebar.jsp --%>
-<%--c --%>
-<%@ page contentType="text/html;charset=UTF-8" %>
+
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <nav>
     <a href="mainMenu.jsp">メニュー</a><br><br>
