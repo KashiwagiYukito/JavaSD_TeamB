@@ -10,10 +10,10 @@
 	    <link rel="stylesheet" type="text/css" href="css/style.css">
 
 		<!-- Base-header.jspの適用 -->
-		<jsp:include page="Base-header.jsp" />
+		<include page="Base-header.jsp">
 
 		<!-- Base-sidebar.jspの適用 -->
-    	<jsp:include page="Base-sidebar.jsp" />
+    	<include page="Base-sidebar.jsp">
 
 
 	</head>
@@ -95,6 +95,6 @@
 
 	</body>
 	<!-- Base-footer.jspの適用 -->
-	<jsp:include page="Base-footer.jsp" />
+	<include page="Base-footer.jsp">
 
 </html>

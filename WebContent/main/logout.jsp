@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
-<jsp:include page="Base-header.jsp" />
+<include page="Base-header.jsp"/>
 <body>
 
 
@@ -14,4 +14,4 @@
     </div>
 </body>
 </html>
-<jsp:include page="Base-footer.jsp" />
+<include page="Base-footer.jsp"/>

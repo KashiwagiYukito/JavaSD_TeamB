@@ -1,6 +1,6 @@
 <%-- login.jsp --%>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<jsp:include page="Base-header.jsp" />
+<include page="Base-header.jsp" >
 
 <body>
 
@@ -50,4 +50,4 @@
         }
     </script>
 </body>
-<jsp:include page="Base-footer.jsp" />
+<include page="Base-footer.jsp" >

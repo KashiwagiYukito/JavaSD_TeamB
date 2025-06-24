@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<jsp:include page="Base-header.jsp" />
+<include page="Base-header.jsp">
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,5 +43,5 @@
 
 
 </body>
-<jsp:include page="Base-footer.jsp" />
+<include page="Base-footer.jsp">
 </html>

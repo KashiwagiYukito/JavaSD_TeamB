@@ -1,11 +1,11 @@
 <%-- mainMenu.jsp --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<jsp:include page="Base-header.jsp" />
+<include page="Base-header.jsp">
 
 <div class="main-flex">
   <!-- サイドバー -->
   <div class="sidebar-area">
-    <jsp:include page="Base-sidebar.jsp" />
+    <include page="Base-sidebar.jsp">
   </div>
   <!-- メイン画面 -->
   <div class="main-menu-main">
@@ -32,4 +32,4 @@
     </div>
   </div>
 </div>
-<jsp:include page="Base-footer.jsp" />
+<include page="Base-footer.jsp">
