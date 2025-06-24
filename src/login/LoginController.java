@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import bean.Teacher;
 import dao.TeacherDAO;
 
-@WebServlet("/login/LoginController")
+@WebServlet("/Login")
 public class LoginController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +46,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("teacher", teacher);
                 session.setAttribute("schoolCd", teacher.getSchoolCd());
-                response.sendRedirect("/mainMenu.jsp");
+                response.sendRedirect(request.getContextPath() + "/main/mainMenu.jsp");
                 return; // 以降の処理は不要なため終了
             }
 
@@ -55,12 +55,12 @@ public class LoginController extends HttpServlet {
             e.printStackTrace();
             // ユーザーには汎用的なエラーメッセージを表示
             request.setAttribute("error", "システムエラーが発生しました。");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
 
         // ログイン失敗（ID/パスワード不一致、またはID未入力）
         request.setAttribute("error", "IDまたはパスワードが正しくありません。");
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 }

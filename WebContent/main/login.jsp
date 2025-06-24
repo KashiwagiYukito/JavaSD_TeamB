@@ -9,7 +9,7 @@
             <h2>ログイン</h2>
         </div>
 
-        <form action="<%=request.getContextPath()%>/login" method="post">
+        <form action="<%=request.getContextPath()%>/Login" method="post">
             <div class="form-wrapper">
                 <div class="form-group">
                     <input type="text" class="form-control" id="id" name="id"
