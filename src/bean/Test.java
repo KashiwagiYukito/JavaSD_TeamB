@@ -43,6 +43,18 @@ public class Test {
 	public void setClassNum(String classNum) {
 		this.classNum = classNum;
 	}
+	public void setStudentId(int studentId) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+	public void setSubjectId(int subjectId) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+	public void setScore(int score) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 
 
 }
