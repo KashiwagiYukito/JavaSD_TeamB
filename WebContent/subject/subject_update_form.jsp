@@ -22,6 +22,7 @@
         <button type="submit">変更</button>
     </form>
     <br>
-    <a href="subject_update.jsp">戻る</a>
+   <a href="${pageContext.request.contextPath}/subject/SubjectUpdate?action=list">戻る</a>
+
 </body>
 </html>

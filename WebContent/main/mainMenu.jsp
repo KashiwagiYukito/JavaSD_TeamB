@@ -27,7 +27,7 @@
       </div>
       <!-- ③ 科目管理カード -->
       <div class="main-menu-card card-subject d-flex align-items-center justify-content-center">
-        <a href="subjectList.jsp" class="main-menu-link">科目管理</a>
+        <a href="${pageContext.request.contextPath}/subject/SubjectUpdate?action=list" class="main-menu-link">科目管理</a>
       </div>
     </div>
   </div>

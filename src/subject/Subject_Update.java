@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import bean.Subject;
 import dao.SubjectDAO;
 
-@WebServlet("/SubjectUpdate")
-public class SubjectUpdate extends HttpServlet {
+@WebServlet("/subject/SubjectUpdate")
+public class Subject_Update extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
 
         String action = req.getParameter("action");
         if (action == null) action = "list";
@@ -30,14 +31,7 @@ public class SubjectUpdate extends HttpServlet {
                     // 科目一覧表示
                     List<Subject> subjectList = dao.findAll();
                     req.setAttribute("subjectList", subjectList);
-                    forward(req, resp, "/subjectList.jsp");
-                    break;
-
-                case "select":
-                    // 科目コード選択画面
-                    List<Subject> subjectListForSelect = dao.findAll();
-                    req.setAttribute("subjectList", subjectListForSelect);
-                    forward(req, resp, "/subjectUpdate.jsp1");
+                    forward(req, resp, "/subject/subjectList.jsp");
                     break;
 
                 case "edit":
@@ -47,28 +41,32 @@ public class SubjectUpdate extends HttpServlet {
                     Subject subject = dao.findById(editSchoolCd, editCd);
                     if (subject == null) {
                         req.setAttribute("error", "該当する科目がありません");
-                        forward(req, resp, "/subjectUpdate.jsp1");
+                        // 一覧に戻す
+                        List<Subject> subjectList2 = dao.findAll();
+                        req.setAttribute("subjectList", subjectList2);
+                        forward(req, resp, "/subject/subjectList.jsp");
                         return;
                     }
                     req.setAttribute("subject", subject);
-                    forward(req, resp, "/subjectUpdate_form.jsp");
+                    forward(req, resp, "/subject/subject_update_form.jsp");
                     break;
 
                 default:
                     // デフォルトは一覧
                     List<Subject> defaultList = dao.findAll();
                     req.setAttribute("subjectList", defaultList);
-                    forward(req, resp, "/subjectList.jsp");
+                    forward(req, resp, "/subject/subjectList.jsp");
             }
         } catch (Exception e) {
             req.setAttribute("error", "エラー: " + e.getMessage());
-            forward(req, resp, "/subjectList.jsp");
+            forward(req, resp, "/subject/subjectList.jsp");
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
 
         String action = req.getParameter("action");
         if (action == null) action = "";
@@ -87,25 +85,31 @@ public class SubjectUpdate extends HttpServlet {
                     subject.setName(name);
                     dao.update(subject, schoolCd, cd);
                     req.setAttribute("subject", subject);
-                    forward(req, resp, "/subjectUpdate_done.jsp");
+                    req.setAttribute("message", "更新が完了しました");
+                    // 完了後は一覧に戻す
+                    List<Subject> subjectList = dao.findAll();
+                    req.setAttribute("subjectList", subjectList);
+                    forward(req, resp, "/subject/subjectList.jsp");
                 } else {
                     req.setAttribute("error", "該当する科目がありません");
-                    forward(req, resp, "/subjectUpdate_form.jsp");
+                    req.setAttribute("subject", subject);
+                    forward(req, resp, "/subject/subject_update_form.jsp");
                 }
-            } else if ("select".equals(action)) {
-                // 科目コード選択から編集画面へ
-                String schoolCd = req.getParameter("schoolCd");
-                String cd = req.getParameter("cd");
-                resp.sendRedirect(req.getContextPath() + "/SubjectUpdate?action=edit&schoolCd=" + schoolCd + "&cd=" + cd);
             } else {
                 // デフォルトは一覧
                 List<Subject> subjectList = dao.findAll();
                 req.setAttribute("subjectList", subjectList);
-                forward(req, resp, "/subjectList.jsp");
+                forward(req, resp, "/subject/subjectList.jsp");
             }
         } catch (Exception e) {
             req.setAttribute("error", "エラー: " + e.getMessage());
-            forward(req, resp, "/subjectList.jsp");
+            List<Subject> subjectList = null;
+            try {
+                SubjectDAO dao = new SubjectDAO();
+                subjectList = dao.findAll();
+            } catch (Exception ex) {}
+            req.setAttribute("subjectList", subjectList);
+            forward(req, resp, "/subject/subjectList.jsp");
         }
     }
 
