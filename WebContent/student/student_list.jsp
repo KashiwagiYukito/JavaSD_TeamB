@@ -6,25 +6,34 @@
 
 	    <meta charset="UTF-8">
 	    <title>学生管理</title>
+
 	    <!-- cssの適用 -->
 	    <link rel="stylesheet" type="text/css" href="css/style.css">
-
-		<!-- Base-header.jspの適用 -->
-		<include page="Base-header.jsp">
-
-		<!-- Base-sidebar.jspの適用 -->
-    	<include page="Base-sidebar.jsp">
 
 
 	</head>
 
 	<body>
 
-		<div class="container">
-		    <h2>学生管理</h2>
+		<!-- Base-header.jspの適用 -->
+		<jsp:include page="/Base-header.jsp" />
 
-			<!-- 新規登録のページへ -->
-            <a href="student_register.jsp" class="right">新規登録</a>
+		<!-- メインレイアウト -->
+		<div class="main-flex">
+
+	    	<!-- Base-sidebar.jspの適用 -->
+	    	<div class="sidebar-area">
+	    		<jsp:include page="/Base-sidebar.jsp" />
+			</div>
+			 <!-- 右：メインコンテンツ -->
+        	<div class="main-menu-main">
+
+            <!-- タイトル -->
+            <div class="main-menu-header">学生管理</div>
+
+            <!-- 新規登録リンク -->
+            <a href="student_register.jsp" class="main-menu-link">新規登録</a>
+
 
 		    <form action="StudentList.action" method="post">
 
@@ -56,45 +65,47 @@
 					<button type="submit">絞り込み</button>
 
 		        </div>
-
-
 	    	</form>
+		</div>
 
-			<c:if test="${not empty studentList}">
-			    <table>
-			        <tr>
-			            <th>入学年度</th>
-			            <th>学生番号</th>
-			            <th>氏名</th>
-			            <th>クラス</th>
-			            <th>在学中</th>
-			            <th>操作</th>
-			        </tr>
-
-			        <c:forEach var="s" items="${studentList}">
+			<!-- 学生一覧表示部分 -->
+			<div id="studentTableArea">
+			    <c:if test="${not empty studentList}">
+			        <table>
 			            <tr>
-			                <td>${s.enrollmentYear}</td>
-			                <td>${s.studentNo}</td>
-			                <td>${s.name}</td>
-			                <td>${s.classNum}</td>
-			                <td>
-
-			                    <c:choose>
-			                        <c:when test="${s.active}">○</c:when>
-			                        <c:otherwise>×</c:otherwise>
-			                    </c:choose>
-
-			                </td>
-			                <td><a href="StudentEditServlet?studentNo=${s.studentNo}">変更</a></td>
+			                <th>入学年度</th>
+			                <th>学生番号</th>
+			                <th>氏名</th>
+			                <th>クラス</th>
+			                <th>在学中</th>
+			                <th>操作</th>
 			            </tr>
-			        </c:forEach>
-			    </table>
-			</c:if>
+
+			            <c:forEach var="s" items="${studentList}">
+			                <tr>
+			                    <td>${s.enrollmentYear}</td>
+			                    <td>${s.studentNo}</td>
+			                    <td>${s.name}</td>
+			                    <td>${s.classNum}</td>
+			                    <td>
+			                        <c:choose>
+			                            <c:when test="${s.active}">○</c:when>
+			                            <c:otherwise>×</c:otherwise>
+			                        </c:choose>
+			                    </td>
+			                    <td><a href="StudentEditServlet?studentNo=${s.studentNo}">変更</a></td>
+			                </tr>
+			            </c:forEach>
+			        </table>
+			    </c:if>
+			</div>
 
 		</div>
 
+		<!-- Base-footer.jspの適用 -->
+		<jsp:include page="/Base-footer.jsp" />
+
+
 	</body>
-	<!-- Base-footer.jspの適用 -->
-	<include page="Base-footer.jsp">
 
 </html>

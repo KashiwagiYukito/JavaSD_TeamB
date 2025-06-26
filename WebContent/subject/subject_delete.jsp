@@ -4,33 +4,48 @@
 	<head>
 
 	    <meta charset="UTF-8">
-	    <title>科目情報削除</title>
+	    <title>得点管理システム</title>
 
-
-		<!-- Base-header.jspの適用 -->
-		<include page="Base-header.jsp">
-
-		<!-- Base-sidebar.jspの適用 -->
-    	<include page="Base-sidebar.jsp">
+		<!-- cssの適用 -->
+	    <link rel="stylesheet" type="text/css" href="css/style.css">
 
 	</head>
 
 	<body>
 
-	    <h2>科目情報削除</h2>
+		<!-- Base-header.jspの適用 -->
+		<jsp:include page="/Base-header.jsp" />
 
-		<!-- 削除する科目の名前を確認をする -->
-	    <p>「${subject.name}(${subject.cd})」を削除してよろしいですか？</p>
+		<!-- メインレイアウト -->
+		<div class="main-flex">
 
-	    <!-- 削除ボタン -->
-	    <form action="SubjectDelete.action" method="post">
-	        <input type="hidden" name="subjectId" value="${subject.cd}">
-	        <button type="submit">削除</button>
-	    </form>
+	    	<!-- Base-sidebar.jspの適用 -->
+	    	<div class="sidebar-area">
+	    		<jsp:include page="/Base-sidebar.jsp" />
+			</div>
 
-	    <!-- 科目一覧に戻るリンク -->
-	    <p><a href="SubjectList.action">戻る</a></p>
+			 <!-- 右：メインコンテンツ -->
+        	<div class="main-menu-main">
 
+
+	    	<div class="main-menu-header">科目情報削除</div>
+
+			<!-- 削除する科目の名前を確認をする -->
+		    <p>「${subject.name}(${subject.cd})」を削除してよろしいですか？</p>
+
+		    <!-- 削除ボタン -->
+		    <form action="subject_delete_done.jsp" method="post">
+		        <input type="hidden" name="subjectId" value="${subject.cd}">
+		        <button type="submit">削除</button>
+		    </form>
+
+		    <!-- 科目一覧に戻るリンク -->
+		    <p><a href="subjectList.jsp" class="right">科目一覧へ</a></p>
+			</div>
+		</div>
 	</body>
+
+	<!-- Base-footer.jspの適用 -->
+	<jsp:include page="/Base-footer.jsp" />
 
 </html>
