@@ -22,7 +22,7 @@
         <div class="main-menu-card-title">成績管理</div>
         <div class="main-menu-card-sub">
           <a href="<%=request.getContextPath()%>/grade/Create" class="main-menu-link">成績登録</a><br>
-          <a href="scoreSearch.jsp" class="main-menu-link">成績参照</a>
+          <a href="<%=request.getContextPath()%>/grade/TestListController" class="main-menu-link">成績参照</a>
         </div>
       </div>
       <!-- ③ 科目管理カード -->
