@@ -9,7 +9,7 @@
             <h2 class="mb-1" style="font-size: 1.4rem; font-weight: bold;">成績参照</h2>
         </div>
 
-        <%-- 科目情報で検索 --%>
+        <!-- 科目情報で検索（未実装） -->
         <form action="gradeSearchSubject" method="get" class="mb-4">
             <div class="row g-3 align-items-end">
                 <div class="col-md-3">
@@ -42,8 +42,9 @@
             </div>
         </form>
 
-        <%-- 学生番号で検索 --%>
-        <form action="<%=request.getContextPath()%>/grade/TestListController" method="get">
+        <!-- 学生番号で検索 -->
+        <form action="<%=request.getContextPath()%>/grade/TestListController" method="post">
+            <input type="hidden" name="searchType" value="student">
             <div class="row g-3 align-items-end">
                 <div class="col-md-6">
                     <label for="studentId" class="form-label">学生番号</label>
@@ -55,16 +56,42 @@
             </div>
         </form>
 
-        <%-- エラーメッセージ表示 --%>
-        <%
-            String error = (String) request.getAttribute("error");
-            if (error != null) {
-        %>
-            <div class="error-message mt-3 text-danger fw-bold"><%= error %></div>
-        <%
-            }
-        %>
+        <!-- エラーメッセージ表示 -->
+        <c:if test="${not empty error}">
+            <div class="error-message mt-3 text-danger fw-bold">
+                ${error}
+            </div>
+        </c:if>
     </div>
+
+    <!-- 成績結果表示 -->
+    <c:if test="${not empty testList}">
+        <div class="result-table mt-5">
+            <h4 class="mb-3">学生成績一覧</h4>
+            <p class="mb-3 fw-bold">氏名：${testList[0].name}（${testList[0].studentNo}）</p>
+
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
+                    <tr>
+                        <th>科目名</th>
+                        <th>科目コード</th>
+                        <th>回数</th>
+                        <th>得点</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="record" items="${testList}">
+                        <tr>
+                            <td>${record.subjectName}</td>
+                            <td>${record.subjectCd}</td>
+                            <td>${record.num}</td>
+                            <td>${record.point}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </c:if>
 </div>
 
 <%@ include file="/Base-footer.jsp" %>
