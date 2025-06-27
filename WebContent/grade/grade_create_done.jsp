@@ -17,3 +17,4 @@
 </div>
 </body>
 </html>
+<%@ include file="/Base-footer.jsp" %>
