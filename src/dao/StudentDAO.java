@@ -120,4 +120,19 @@ public class StudentDAO extends DAO {
             ps.executeUpdate();
         }
     }
+
+	public List<Integer> getEntYears(String schoolCd) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	public List<String> getClassNums(String schoolCd) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	public void insertStudent(Student student) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
 }

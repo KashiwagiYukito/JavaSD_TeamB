@@ -56,6 +56,15 @@ public class Student {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
+	public void setEntyear(int entYear2) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+	public void setSchool(Object school) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+	
 
 
 

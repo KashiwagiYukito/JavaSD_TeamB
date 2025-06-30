@@ -22,6 +22,10 @@ public class Subject {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public void setSchool(Object school) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
 
 
 
