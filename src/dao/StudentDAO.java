@@ -133,6 +133,6 @@ public class StudentDAO extends DAO {
 
 	public void insertStudent(Student student) {
 		// TODO 自動生成されたメソッド・スタブ
-		
+
 	}
 }

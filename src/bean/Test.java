@@ -55,6 +55,14 @@ public class Test {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
+	public void setStudentId(String studentId) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+	public void setSubjectId(String subjectId) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 
 
 }

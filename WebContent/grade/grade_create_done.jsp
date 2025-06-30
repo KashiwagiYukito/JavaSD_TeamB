@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ include file="/main/mainMenu.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +12,7 @@
     <p>科目ID: ${test.subjectId}</p>
     <p>点数: ${test.score}</p>
     <a href="grade_create.jsp">続けて登録する</a>
-    <a href="/top.jsp">メニューに戻る</a>
+    <a href="/main/mainManu.jsp">メニューに戻る</a>
 </div>
 </body>
 </html>
