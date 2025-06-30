@@ -109,5 +109,31 @@ public class Class_NumDAO extends DAO {
             ps.executeUpdate();
         }
     }
+
+    /**
+     * 指定した学校のクラス一覧を取得します。
+     * @param schoolCd 学校コード
+     * @return List<Class_Num>
+     * @throws Exception
+     */
+    public List<Class_Num> findBySchool(String schoolCd) throws Exception {
+        List<Class_Num> list = new ArrayList<>();
+        String sql = "SELECT * FROM CLASS_NUM WHERE SCHOOL_CD = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, schoolCd);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Class_Num cn = new Class_Num();
+                    cn.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    cn.setClassNum(rs.getString("CLASS_NUM"));
+                    list.add(cn);
+                }
+            }
+        }
+        return list;
+    }
+
 }
+
 

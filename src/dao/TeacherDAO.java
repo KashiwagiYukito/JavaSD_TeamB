@@ -111,4 +111,32 @@ public class TeacherDAO extends DAO {
             ps.executeUpdate();
         }
     }
+
+
+/**
+ * ログイン認証（LOGIN_ID と PASSWORD で教員を取得）
+ * @param loginId ログインID
+ * @param password パスワード
+ * @return Teacher 該当教員情報（見つからない場合はnull）
+ * @throws Exception データベース操作時の例外
+ */
+public Teacher login(String loginId, String password) throws Exception {
+    String sql = "SELECT * FROM TEACHER WHERE ID = ? AND PASSWORD = ?";
+    try (Connection conn = this.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, loginId);
+        ps.setString(2, password);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                Teacher t = new Teacher();
+                t.setId(rs.getString("ID"));
+                t.setPassword(rs.getString("PASSWORD"));
+                t.setName(rs.getString("NAME"));
+                t.setSchoolCd(rs.getString("SCHOOL_CD"));
+                return t;
+            }
+        }
+    }
+    return null;
+  }
 }

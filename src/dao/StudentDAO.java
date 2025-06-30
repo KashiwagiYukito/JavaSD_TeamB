@@ -40,6 +40,27 @@ public class StudentDAO extends DAO {
         return list;
     }
 
+    public Student filterByNo(String no) throws Exception {
+        String sql = "SELECT * FROM STUDENT WHERE NO = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, no);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Student s = new Student();
+                    s.setNo(rs.getString("NO"));
+                    s.setName(rs.getString("NAME"));
+                    s.setEntYear(rs.getInt("ENT_YEAR"));
+                    s.setClassNum(rs.getString("CLASS_NUM"));
+                    s.setAttend(rs.getBoolean("ATTEND"));
+                    // 他にカラムがあれば適宜追加
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * 主キー（学生番号）で学生情報を1件取得します。
      * @param no 学生番号
@@ -58,8 +79,8 @@ public class StudentDAO extends DAO {
                     s.setName(rs.getString("NAME"));
                     s.setEntYear(rs.getInt("ENT_YEAR"));
                     s.setClassNum(rs.getString("CLASS_NUM"));
-                    s.setAttend(rs.getBoolean("IS_ATTEND"));
-                    s.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    s.setAttend(rs.getBoolean("IS_ATTEND")); // ここ修正
+                    s.setSchoolCd(rs.getString("SCHOOL_CD")); // 追加を推奨
                     return s;
                 }
             }
@@ -121,18 +142,34 @@ public class StudentDAO extends DAO {
         }
     }
 
-	public List<Integer> getEntYears(String schoolCd) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
+    /**
+     * 指定した学校コードの学生情報リストを取得
+     * @param schoolCd 学校コード
+     * @return List<Student>
+     * @throws Exception
+     */
+    public List<Student> findBySchool(String schoolCd) throws Exception {
+        List<Student> list = new ArrayList<>();
+        String sql = "SELECT * FROM STUDENT WHERE SCHOOL_CD = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, schoolCd);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Student s = new Student();
+                    s.setNo(rs.getString("NO"));
+                    s.setName(rs.getString("NAME"));
+                    s.setEntYear(rs.getInt("ENT_YEAR"));
+                    s.setClassNum(rs.getString("CLASS_NUM"));
+                    s.setAttend(rs.getBoolean("IS_ATTEND"));
+                    s.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    list.add(s);
+                }
+            }
+        }
+        return list;
+    }
 
-	public List<String> getClassNums(String schoolCd) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-	public void insertStudent(Student student) {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
 }
+
+

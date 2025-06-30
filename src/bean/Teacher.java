@@ -29,10 +29,6 @@ public class Teacher {
 	public void setSchoolCd(String schoolCd) {
 		this.schoolCd = schoolCd;
 	}
-	public Object getSchool() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 
 
 }

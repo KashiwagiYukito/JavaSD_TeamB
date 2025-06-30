@@ -113,4 +113,24 @@ public class SubjectDAO extends DAO {
             ps.executeUpdate();
         }
     }
+
+    public List<Subject> filterBySchool(String schoolCd) throws Exception {
+        List<Subject> list = new ArrayList<>();
+        String sql = "SELECT * FROM SUBJECT WHERE SCHOOL_CD = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, schoolCd);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Subject s = new Subject();
+                    s.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    s.setCd(rs.getString("CD"));
+                    s.setName(rs.getString("NAME"));
+                    list.add(s);
+                }
+            }
+        }
+        return list;
+    }
+
 }

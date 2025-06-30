@@ -1,4 +1,5 @@
 package dao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,27 +12,28 @@ import bean.Subject;
 import bean.TestListSubject;
 
 public class TestListSubjectDao extends DAO {
-	private final String baseSql =
-	        "SELECT s.ent_year, s.class_num, s.no AS student_no, s.name, " +
-	        "sc.no AS test_no, sc.point " +
-	        "FROM student s " +
-	        "LEFT JOIN score sc ON s.no = sc.student_no " +
-	        "AND sc.subject_cd = ? AND sc.school_cd = ? " +
-	        "WHERE s.ent_year = ? AND s.class_num = ? " +
-	        "ORDER BY s.no, sc.no";
+	private final String baseSqlWithTestNo =
+			"SELECT s.ent_year, s.class_num, s.no AS student_no, s.name, " +
+		    "sc.no AS test_no, sc.point " +
+			"FROM student s " +
+			"LEFT JOIN TEST sc ON s.no = sc.student_no " +  // ← score → TEST
+			"AND sc.subject_cd = ? AND sc.school_cd = ? AND sc.no = ? " +
+			"WHERE s.ent_year = ? AND s.class_num = ? " +
+			"ORDER BY s.no, sc.no";
 
 	    /**
 	     * 検索メソッド
 	     */
-	    public List<TestListSubject> filter(int entYear, String classNum, Subject subject, School school) throws Exception {
+	    public List<TestListSubject> filter(int entYear, String classNum, Subject subject, School school, int testNo) throws Exception {
 	        List<TestListSubject> list = new ArrayList<>();
 
 	        try (Connection con = getConnection();
-	             PreparedStatement st = con.prepareStatement(baseSql)) {
+	             PreparedStatement st = con.prepareStatement(baseSqlWithTestNo)) {
 	            st.setString(1, subject.getCd());
 	            st.setString(2, school.getCd());
-	            st.setInt(3, entYear);
-	            st.setString(4, classNum);
+	            st.setInt(3, testNo);
+	            st.setInt(4, entYear);
+	            st.setString(5, classNum);
 
 	            try (ResultSet rs = st.executeQuery()) {
 	                list = postFilter(rs);
@@ -68,4 +70,63 @@ public class TestListSubjectDao extends DAO {
 	        }
 	        return result;
 	    }
+
+	    /**
+	     * 入学年度一覧を取得
+	     */
+	    public List<Integer> getEntYears(String schoolCd) throws Exception {
+	        List<Integer> list = new ArrayList<>();
+	        String sql = "SELECT DISTINCT ENT_YEAR FROM STUDENT WHERE SCHOOL_CD=? ORDER BY ENT_YEAR DESC";
+	        try (Connection conn = getConnection();
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
+	            ps.setString(1, schoolCd);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while (rs.next()) {
+	                    list.add(rs.getInt("ENT_YEAR"));
+	                }
+	            }
+	        }
+	        return list;
+	    }
+
+
+	    /**
+	     * クラス一覧を取得
+	     */
+	    public List<String> getClassNums(String schoolCd) throws Exception {
+	        List<String> list = new ArrayList<>();
+	        String sql = "SELECT DISTINCT CLASS_NUM FROM STUDENT WHERE SCHOOL_CD=? ORDER BY CLASS_NUM";
+	        try (Connection conn = getConnection();
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
+	            ps.setString(1, schoolCd);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while (rs.next()) {
+	                    list.add(rs.getString("CLASS_NUM"));
+	                }
+	            }
+	        }
+	        return list;
+	    }
+
+
+	    /**
+	     * テスト回数一覧を取得
+	     */
+	    public List<Integer> getTestNos(String schoolCd, String subjectCd) throws Exception {
+	        List<Integer> list = new ArrayList<>();
+	        String sql = "SELECT DISTINCT NO FROM TEST WHERE SCHOOL_CD=? AND SUBJECT_CD=? ORDER BY NO";
+	        try (Connection conn = getConnection();
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
+	            ps.setString(1, schoolCd);
+	            ps.setString(2, subjectCd);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while (rs.next()) {
+	                    list.add(rs.getInt("NO"));
+	                }
+	            }
+	        }
+	        return list;
+	    }
+
+
 }
