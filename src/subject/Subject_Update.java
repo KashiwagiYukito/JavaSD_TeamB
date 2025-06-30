@@ -15,11 +15,11 @@ import dao.SubjectDAO;
 
 @WebServlet("/subject/SubjectUpdate")
 public class Subject_Update extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-
         String action = req.getParameter("action");
         if (action == null) action = "list";
 
@@ -27,39 +27,30 @@ public class Subject_Update extends HttpServlet {
             SubjectDAO dao = new SubjectDAO();
 
             switch (action) {
-                case "list":
-                    // 科目一覧表示
-                    List<Subject> subjectList = dao.findAll();
-                    req.setAttribute("subjectList", subjectList);
-                    forward(req, resp, "/subject/subjectList.jsp");
-                    break;
-
-                case "edit":
-                    // 編集フォーム表示
-                    String editSchoolCd = req.getParameter("schoolCd");
-                    String editCd = req.getParameter("cd");
-                    Subject subject = dao.findById(editSchoolCd, editCd);
+                case "edit": {
+                    String schoolCd = req.getParameter("schoolCd");
+                    String cd = req.getParameter("cd");
+                    Subject subject = dao.findById(schoolCd, cd);
                     if (subject == null) {
                         req.setAttribute("error", "該当する科目がありません");
-                        // 一覧に戻す
-                        List<Subject> subjectList2 = dao.findAll();
-                        req.setAttribute("subjectList", subjectList2);
-                        forward(req, resp, "/subject/subjectList.jsp");
+                        List<Subject> subjectList = dao.findAll();
+                        req.setAttribute("subjectList", subjectList);
+                        forward(req, resp, "/subject/subject_List.jsp");
                         return;
                     }
                     req.setAttribute("subject", subject);
                     forward(req, resp, "/subject/subject_update_form.jsp");
                     break;
-
-                default:
-                    // デフォルトは一覧
-                    List<Subject> defaultList = dao.findAll();
-                    req.setAttribute("subjectList", defaultList);
-                    forward(req, resp, "/subject/subjectList.jsp");
+                }
+                default: {
+                    List<Subject> subjectList = dao.findAll();
+                    req.setAttribute("subjectList", subjectList);
+                    forward(req, resp, "/subject/subject_List.jsp");
+                }
             }
         } catch (Exception e) {
             req.setAttribute("error", "エラー: " + e.getMessage());
-            forward(req, resp, "/subject/subjectList.jsp");
+            forward(req, resp, "/subject/subject_List.jsp");
         }
     }
 
@@ -67,7 +58,6 @@ public class Subject_Update extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-
         String action = req.getParameter("action");
         if (action == null) action = "";
 
@@ -75,41 +65,34 @@ public class Subject_Update extends HttpServlet {
             SubjectDAO dao = new SubjectDAO();
 
             if ("update".equals(action)) {
-                // 科目情報の更新
-                String schoolCd = req.getParameter("schoolCd");
-                String cd = req.getParameter("cd");
+                String oldSchoolCd = req.getParameter("oldSchoolCd");
+                String oldCd = req.getParameter("oldCd");
                 String name = req.getParameter("name");
 
-                Subject subject = dao.findById(schoolCd, cd);
+                // 主キーは変更不可なのでoldSchoolCd, oldCdを使い、更新対象を特定
+                Subject subject = dao.findById(oldSchoolCd, oldCd);
                 if (subject != null) {
                     subject.setName(name);
-                    dao.update(subject, schoolCd, cd);
+                    // schoolCd, cdは変更不可のため、更新時も同じ値をセット
+                    subject.setSchoolCd(oldSchoolCd);
+                    subject.setCd(oldCd);
+                    dao.update(subject, oldSchoolCd, oldCd);
+
                     req.setAttribute("subject", subject);
-                    req.setAttribute("message", "更新が完了しました");
-                    // 完了後は一覧に戻す
-                    List<Subject> subjectList = dao.findAll();
-                    req.setAttribute("subjectList", subjectList);
-                    forward(req, resp, "/subject/subjectList.jsp");
+                    forward(req, resp, "/subject/subject_update_done.jsp");
                 } else {
                     req.setAttribute("error", "該当する科目がありません");
                     req.setAttribute("subject", subject);
                     forward(req, resp, "/subject/subject_update_form.jsp");
                 }
             } else {
-                // デフォルトは一覧
                 List<Subject> subjectList = dao.findAll();
                 req.setAttribute("subjectList", subjectList);
-                forward(req, resp, "/subject/subjectList.jsp");
+                forward(req, resp, "/subject/subject_List.jsp");
             }
         } catch (Exception e) {
             req.setAttribute("error", "エラー: " + e.getMessage());
-            List<Subject> subjectList = null;
-            try {
-                SubjectDAO dao = new SubjectDAO();
-                subjectList = dao.findAll();
-            } catch (Exception ex) {}
-            req.setAttribute("subjectList", subjectList);
-            forward(req, resp, "/subject/subjectList.jsp");
+            forward(req, resp, "/subject/subject_List.jsp");
         }
     }
 
