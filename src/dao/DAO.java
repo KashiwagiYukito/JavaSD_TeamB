@@ -16,7 +16,7 @@ public class DAO {
         if (ds == null) {
             // データベースに接続（JNDI経由）
             InitialContext ic = new InitialContext();
-            ds = (DataSource) ic.lookup("java:comp/env/jdbc/test");
+            ds = (DataSource) ic.lookup("java:comp/env/jdbc/ teamB");
         }
 
         return ds.getConnection();

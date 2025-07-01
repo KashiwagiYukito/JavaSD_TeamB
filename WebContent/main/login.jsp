@@ -4,46 +4,64 @@
 <html>
 <head>
   <title>ログイン</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../style.css">
   <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+    body {
+      display: block;
+    }
+    /* ログインボックス上下に12pxずつ余白 */
     .login-outer {
-      min-height: calc(100vh - 166px);
+      margin-top: 12px !important;       /* ヘッダーとの間 */
+      margin-bottom: 12px !important;    /* フッターとの間 */
+      padding: 0 !important;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      background: #fff;
+      min-height: unset;
+      height: auto;
     }
     .login-box {
-      width: 480px;
+      margin: 0 !important;
       background: #fff;
-      border-radius: 20px;
       box-shadow: 0 4px 22px #0072ff11;
+      border-radius: 18px;
       border: 2.5px solid #f2f5fb;
-      margin: 36px 0;
+      width: 480px;
+      padding: 0;
+      min-height: 0;
+      max-height: none;
     }
     .login-header {
-      font-size: 2.3rem;
+      font-size: 1.4rem;
       font-weight: bold;
       background: #f4f6f8;
       border-radius: 18px 18px 0 0;
-      padding: 22px 0 14px 0;
+      padding: 6px 0 6px 0;
       border-bottom: 2px solid #e1e4e8;
-      letter-spacing: 0.08em;
       text-align: center;
     }
     .login-form {
-      padding: 36px 38px 20px 38px;
+      padding: 12px 20px 10px 20px;
+      background: #fff;
     }
-    /* ラベルを枠内左上に絶対配置 */
     .input-wrap {
+      margin-bottom: 14px;
       position: relative;
-      margin-bottom: 30px;
     }
     .input-label-inside {
       position: absolute;
-      left: 18px;
-      top: 10px;
+      left: 14px;
+      top: 8px;
       color: #888;
-      font-size: 1.04em;
+      font-size: 1em;
       font-weight: 500;
       pointer-events: none;
       z-index: 2;
@@ -51,83 +69,97 @@
     }
     .login-input {
       width: 100%;
-      height: 54px;
-      font-size: 1.22em;
-      border-radius: 12px;
+      height: 44px;
+      font-size: 1.1em;
+      border-radius: 10px;
       background: #e8f1fe;
       border: none;
-      padding-left: 17px;
-      padding-top: 25px; /* ラベル分の上余白を確保 */
+      padding-left: 14px;
+      padding-top: 18px;
       font-weight: bold;
       color: #222;
     }
     .pw-row {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 22px;
-      margin-left: 3px;
-      font-size: 1.05em;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-size: 1em;
+      width: 100%;
+      gap: 8px;
     }
     .login-btn {
-      width: 325px;
-      height: 56px;
-      font-size: 1.35em;
+      width: 40%;
+      min-width: 180px;
+      max-width: 400px;
+      height: 50px;
+      font-size: 1.08em;
       background: #1677ff;
       color: #fff;
       border: none;
-      border-radius: 15px;
+      border-radius: 13px;
       font-weight: bold;
       letter-spacing: 0.1em;
-      margin-top: 10px;
+      margin: 10px auto 0 auto;
       box-shadow: 0 4px 10px #1677ff22;
+      display: block;
     }
-    .login-btn:hover { background: #0c57b8; }
+    .login-btn:hover {
+      background: #0c57b8;
+    }
+    .login-err {
+      color: #d00;
+      background: #fff0f2;
+      border: 1px solid #ffc0cb;
+      border-radius: 10px;
+      text-align: center;
+      margin: 12px 24px 0 24px;
+      padding: 8px 0 8px 0;
+      font-size: 1em;
+      font-weight: 500;
+    }
     @media (max-width: 700px) {
-      .login-box { width: 96vw; min-width: 0; }
-      .login-form { padding: 20px 2vw 15px 2vw; }
-      .login-btn { width: 95%; }
+      .login-box { width: 98vw; min-width: 0; }
+      .login-form { padding: 12px 2vw 8px 2vw; }
+      .login-btn { width: 96%; }
     }
   </style>
 </head>
 <body>
-<div class="login-outer">
-  <div class="login-box">
-    <div class="login-header">ログイン</div>
-    <%-- 認証エラーの場合は "error=auth" をリクエストパラメータで受け取る例 --%>
-      <%
-        String error = request.getParameter("error");
-        if ("auth".equals(error)) {
-      %>
-        <div class="login-err">
-          ログインに失敗しました。IDまたはパスワードが正しくありません。
-        </div>
+  <div class="login-outer">
+    <div class="login-box">
+      <div class="login-header">ログイン</div>
+      <% String error = request.getParameter("error");
+         if ("auth".equals(error)) { %>
+          <div class="login-err">
+            ログインに失敗しました。IDまたはパスワードが正しくありません。
+          </div>
       <% } %>
-    <form action="<%= request.getContextPath() %>/main/LoginServlet" method="post" autocomplete="off" class="login-form">
-      <div class="input-wrap">
-        <label for="login-id" class="input-label-inside">ID</label>
-        <input type="text" name="id" id="login-id" class="login-input" autocomplete="username" required>
-      </div>
-      <div class="input-wrap">
-        <label for="login-pw" class="input-label-inside">パスワード</label>
-        <input type="password" name="password" id="login-pw" class="login-input" autocomplete="current-password" required>
-      </div>
-      <div class="pw-row mb-4">
-        <input type="checkbox" class="form-check-input" id="pwshow">
-        <label for="pwshow" style="user-select:none;margin-left:6px;margin-bottom:0;">パスワードを表示</label>
-      </div>
-      <div class="text-center">
-        <button type="submit" class="login-btn">ログイン</button>
-      </div>
-    </form>
+      <form action="<%= request.getContextPath() %>/main/LoginServlet" method="post" autocomplete="off" class="login-form">
+        <div class="input-wrap">
+          <label for="login-id" class="input-label-inside">ID</label>
+          <input type="text" name="id" id="login-id" class="login-input" autocomplete="username" required>
+        </div>
+        <div class="input-wrap">
+          <label for="login-pw" class="input-label-inside">パスワード</label>
+          <input type="password" name="password" id="login-pw" class="login-input" autocomplete="current-password" required>
+        </div>
+        <div class="pw-row mb-4">
+          <input type="checkbox" class="form-check-input" id="pwshow">
+          <label for="pwshow" style="user-select:none;margin-left:6px;margin-bottom:0;">パスワードを表示</label>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="login-btn">ログイン</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-<script>
-  // パスワード表示/非表示
-  document.getElementById('pwshow').addEventListener('change', function() {
-    document.getElementById('login-pw').type = this.checked ? 'text' : 'password';
-  });
-</script>
-<%@ include file="/footer.jsp" %>
+  <script>
+    // パスワード表示/非表示
+    document.getElementById('pwshow').addEventListener('change', function() {
+      document.getElementById('login-pw').type = this.checked ? 'text' : 'password';
+    });
+  </script>
+  <%@ include file="/footer.jsp" %>
 </body>
 </html>

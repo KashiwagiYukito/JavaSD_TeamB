@@ -1,91 +1,140 @@
 body {
-  padding-top: 56px;   /* ヘッダーの高さ分 */
-  padding-left: 200px; /* サイドバーの幅分 */
+  margin: 0;
+  padding: 0;
   background: #f7fafd;
   font-family: "Meiryo", sans-serif;
 }
-
-#sidebar {
-  position: fixed;
-  top: 56px;          /* ヘッダーの高さ分ずらす */
-  left: 0;
-  width: 200px;
-  height: calc(100vh - 56px); /* フッターもある場合は更に調整 */
-  z-index: 1020;
-  background: #f8f9fa;
-  border-right: 1px solid #e0e0e0;
-  overflow-y: auto;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 1030;
-}
-
-.container {
-  margin-top: 30px;
-  margin-bottom: 80px;
+.header-area {
+  background: #e9f2fc;
+  margin: 0 auto;
+  padding: 4px 20px;
+  border-bottom: 1.5px solid #d0deee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  min-width: 300px;
 }
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  background: #e9e9e9;
+  border-top: 2px solid #dde3e8;
   width: 100%;
-  z-index: 1040;
-}
-
-.main-flex {
-  display: flex;
-  min-height: calc(100vh - 166px);
-  width: 100vw;
-  background: #fff;
-}
-.sidebar-area {
-  width: 180px;
-  background: #fff;
-  padding-left: 24px;
-  padding-top: 36px;
-  min-height: calc(100vh - 166px);
-  font-size: 1.07em;
-  border: none;
-  box-sizing: border-box;
+  min-height: 34px;
+  padding: 4px 0;
+  text-align: center;
   position: relative;
 }
-.main-menu-main {
-  flex: 1;
+.login-outer {
+  min-height: calc(100vh - 60px - 34px); /* 一般用：ヘッダー・フッター分引く */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.login-box {
+  width: 480px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 22px #0072ff11;
+  border: 2.5px solid #f2f5fb;
+  margin: 0;
+  padding-bottom: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  min-width: 0;
-  padding-top: 32px;
-  padding-left: 64px;
-  position: relative;
+  justify-content: center;
 }
-.main-menu-main::before {
-  content: '';
-  position: absolute;
-  left: -32px;
-  top: 0;
-  width: 1.5px;
-  height: 100%;
-  background: #e4e6ed;
-  z-index: 2;
-  border-radius: 1px;
-}
-.main-menu-header {
-  width: 100%;
-  max-width: 1150px;
-  background: #f4f6f8;
-  border-radius: 0.7em 0.7em 0 0;
-  font-size: 2em;
+.login-header {
+  font-size: 1.8rem;
   font-weight: bold;
-  padding: 0.7em 0 0.5em 1.2em;
-  margin-bottom: 36px;
-  border-bottom: 1.2px solid #dde3e8;
-  text-align: left;
+  background: #f4f6f8;
+  border-radius: 18px 18px 0 0;
+  padding: 8px 0 6px 0;
+  border-bottom: 2px solid #e1e4e8;
+  text-align: center;
 }
-
+.login-form {
+  padding: 14px 32px 10px 32px;
+}
+.input-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+.input-label-inside {
+  position: absolute;
+  left: 18px;
+  top: 12px;
+  color: #888;
+  font-size: 1em;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 2;
+  background: transparent;
+}
+.login-input {
+  width: 100%;
+  height: 44px;
+  font-size: 1.08em;
+  border-radius: 11px;
+  background: #e8f1fe;
+  border: none;
+  padding-left: 17px;
+  padding-top: 18px;
+  font-weight: bold;
+  color: #222;
+}
+.pw-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 1em;
+  width: 100%;
+  gap: 8px;
+}
+.login-btn {
+  width: 90%;
+  min-width: 180px;
+  max-width: 400px;
+  height: 40px;
+  font-size: 1.08em;
+  background: #1677ff;
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin: 10px auto 0 auto;
+  box-shadow: 0 4px 10px #1677ff22;
+  display: block;
+}
+.login-btn:hover {
+  background: #0c57b8;
+}
+.login-err {
+  color: #d00;
+  background: #fff0f2;
+  border: 1px solid #ffc0cb;
+  border-radius: 10px;
+  text-align: center;
+  margin: 12px 24px 0 24px;
+  padding: 8px 0 8px 0;
+  font-size: 1em;
+  font-weight: 500;
+}
+/* レスポンシブ省略しません */
+@media (max-width: 900px) {
+  .header-area, .main-content {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .login-box {
+    width: 98vw;
+    min-width: 0;
+  }
+  .login-form {
+    padding: 12px 2vw 8px 2vw;
+  }
+  .login-btn {
+    width: 96%;
+  }
+}
