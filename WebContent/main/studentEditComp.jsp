@@ -97,7 +97,7 @@
             <div class="edit-title">学生情報変更</div>
             <div class="edit-comp-msg">変更が完了しました</div>
             <div class="edit-links">
-                <a href="studentList.jsp">学生一覧</a>
+                <a href="<%=request.getContextPath()%>/main/StudentListServlet">学生一覧</a>
             </div>
         </div>
     </div>

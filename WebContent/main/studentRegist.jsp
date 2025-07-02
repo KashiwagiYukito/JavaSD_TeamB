@@ -123,22 +123,22 @@
             <form class="regist-form" action="<%= request.getContextPath() %>/main/StudentRegistServlet" method="post" autocomplete="off">
                 <div class="mb-2">
                     <div class="regist-label">入学年度</div>
-                    <select name="entYear" class="form-select" required>
+                    <select name="entYear" class="form-select">
                         <option value="">------</option>
                         <option value="2022" <c:if test="${param.entYear == '2022'}">selected</c:if>>2022</option>
                         <option value="2023" <c:if test="${param.entYear == '2023'}">selected</c:if>>2023</option>
                         <option value="2024" <c:if test="${param.entYear == '2024'}">selected</c:if>>2024</option>
                     </select>
-                    <c:if test="${not empty errorEntYear}">
-                        <div class="err-msg">${errorEntYear}</div>
+                    <c:if test="${not empty entYearError}">
+                        <div class="err-msg">${entYearError}</div>
                     </c:if>
                 </div>
                 <div class="mb-2">
                     <div class="regist-label">学生番号</div>
                     <input type="text" class="form-control" name="no" placeholder="学生番号を入力してください"
                            value="${param.no}" required>
-                    <c:if test="${not empty errorNo}">
-                        <div class="err-msg">${errorNo}</div>
+                    <c:if test="${not empty errorMsg}">
+                        <div class="err-msg">${errorMsg}</div>
                     </c:if>
                 </div>
                 <div class="mb-2">
@@ -157,7 +157,7 @@
                     </select>
                 </div>
                 <button type="submit" class="regist-btn">登録して終了</button><br>
-                <a href="studentList.jsp" class="regist-back">戻る</a>
+                <a href="<%=request.getContextPath()%>/main/StudentListServlet" class="regist-back">戻る</a>
             </form>
         </div>
     </div>

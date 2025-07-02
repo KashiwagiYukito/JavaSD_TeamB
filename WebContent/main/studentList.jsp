@@ -128,7 +128,7 @@ body { background: #fff; margin: 0; }
         </div>
         <!-- 絞り込みフォーム -->
         <div class="student-search-card mb-4">
-            <form action="/main/StudentListServlet" method="get" class="row g-3 align-items-end">
+            <form action="<%= request.getContextPath() %>/main/StudentListServlet" method="get" class="row g-3 align-items-end">
                 <div class="col-auto fw-bold">入学年度</div>
                 <div class="col-md-3">
                     <select class="form-select" name="entYear">

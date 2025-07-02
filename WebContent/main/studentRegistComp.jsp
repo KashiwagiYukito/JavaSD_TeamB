@@ -96,7 +96,7 @@
         <div class="regist-comp-msg">登録が完了しました</div>
         <div class="regist-links">
             <a href="studentRegist.jsp">戻る</a>
-            <a href="studentList.jsp">学生一覧</a>
+            <a href="<%=request.getContextPath()%>/main/StudentListServlet">学生一覧</a>
         </div>
     </div>
 </div>

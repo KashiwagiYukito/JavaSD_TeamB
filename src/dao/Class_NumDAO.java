@@ -134,6 +134,23 @@ public class Class_NumDAO extends DAO {
         return list;
     }
 
+ // Class_NumDAO.java に追加
+    public List<String> getClassNums(String schoolCd) throws Exception {
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT CLASS_NUM FROM CLASS_NUM WHERE SCHOOL_CD = ? ORDER BY CLASS_NUM";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, schoolCd);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(rs.getString("CLASS_NUM"));
+                }
+            }
+        }
+        return list;
+    }
+
+
 }
 
 

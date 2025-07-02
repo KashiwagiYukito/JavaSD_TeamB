@@ -133,7 +133,7 @@
                         value="true" <%= "true".equals(String.valueOf(request.getAttribute("isAttend"))) ? "checked" : "" %> >
                 </div>
                 <button type="submit" class="btn btn-primary edit-btn">変更</button><br>
-                <a href="studentList.jsp" class="edit-back">戻る</a>
+                <a href="<%=request.getContextPath()%>/main/StudentListServlet" class="edit-back">戻る</a>
             </form>
         </div>
     </div>

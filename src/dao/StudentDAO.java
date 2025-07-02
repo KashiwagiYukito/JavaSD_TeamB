@@ -170,6 +170,64 @@ public class StudentDAO extends DAO {
         return list;
     }
 
+    /**
+     * 学生情報を検索条件で絞り込んで取得します。
+     * @param schoolCd 学校コード
+     * @param entYear 入学年度（nullなら条件に含めない）
+     * @param classNum クラス番号（nullまたは空文字なら条件に含めない）
+     * @param isAttend 在学中かどうか（nullなら条件に含めない）
+     * @return List<Student>
+     * @throws Exception
+     */
+    public List<Student> search(String schoolCd, Integer entYear, String classNum, Boolean isAttend) throws Exception {
+        List<Student> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM STUDENT WHERE SCHOOL_CD = ?");
+        if (entYear != null) sql.append(" AND ENT_YEAR = ?");
+        if (classNum != null && !classNum.isEmpty()) sql.append(" AND CLASS_NUM = ?");
+        if (isAttend != null) sql.append(" AND IS_ATTEND = ?");
+
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int idx = 1;
+            ps.setString(idx++, schoolCd);
+            if (entYear != null) ps.setInt(idx++, entYear);
+            if (classNum != null && !classNum.isEmpty()) ps.setString(idx++, classNum);
+            if (isAttend != null) ps.setBoolean(idx++, isAttend);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Student s = new Student();
+                    s.setNo(rs.getString("NO"));
+                    s.setName(rs.getString("NAME"));
+                    s.setEntYear(rs.getInt("ENT_YEAR"));
+                    s.setClassNum(rs.getString("CLASS_NUM"));
+                    s.setAttend(rs.getBoolean("IS_ATTEND"));
+                    s.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    list.add(s);
+                }
+            }
+        }
+        return list;
+    }
+
+ // StudentDAO.java に追加
+    public List<Integer> getEntYears(String schoolCd) throws Exception {
+        List<Integer> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT ENT_YEAR FROM STUDENT WHERE SCHOOL_CD = ? ORDER BY ENT_YEAR";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, schoolCd);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(rs.getInt("ENT_YEAR"));
+                }
+            }
+        }
+        return list;
+    }
+
+
+
 }
 
 
