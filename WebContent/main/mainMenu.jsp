@@ -147,7 +147,7 @@
         <div style="margin-bottom: 0.2em; font-size: 1.13em;">成績管理</div>
         <div style="margin-left:22px;">
           <a href="<%=request.getContextPath()%>/main/ScoreListServlet" class="main-menu-link">成績登録</a><br>
-          <a href="<%=request.getContextPath()%>/main/ScoreListServlet" class="main-menu-link">成績参照</a>
+          <a href="<%=request.getContextPath()%>/main/ScoreReferenceServlet" class="main-menu-link">成績参照</a>
         </div>
       </div>
       <!-- 科目管理 -->

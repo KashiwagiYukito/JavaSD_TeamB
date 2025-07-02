@@ -4,10 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>成績参照</title>
+    <title>成績参照結果</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/style.css">
     <style>
+        /* CSSスタイルは省略（変更なし） */
         body { background: #f7fafd; }
         .main-flex { display: flex; min-height: calc(100vh - 120px); }
         .sidebar-area { width: 160px; background: #fff; border-right: 1px solid #e0e8ef; padding-top: 28px; padding-left: 20px; }
@@ -50,7 +51,6 @@
             max-width: 200px;
             font-size: 1.11em;
             border-radius: 10px;
-            margin-right: 15px;
             padding: 7px 15px;
         }
         .search-btn {
@@ -72,10 +72,9 @@
             font-size: 1.08em;
             margin: 18px 0 6px 10px;
             letter-spacing: 0.03em;
-            /* Modified to match the provided CSS for the second JSP */
-            margin-left: 2px; /* Adjusted from 10px */
-            margin-top: 8px;  /* Adjusted from 18px */
-            text-align: left; /* Added based on the provided CSS for the second JSP */
+            margin-left: 2px;
+            margin-top: 8px;
+            text-align: left;
         }
         .student-input {
             min-width: 320px;
@@ -105,66 +104,19 @@
         <div class="section-card">
             <div class="section-header">成績参照</div>
             <div class="section-body">
-                <form action="<%=request.getContextPath()%>/main/ScoreReferenceServlet" method="get" autocomplete="off" style="margin-bottom: 0;">
-                  <div class="d-flex align-items-center mb-1 pb-2" style="border-bottom:1.3px solid #eaeaea;">
-                    <span class="info-label">科目情報</span>
-                    <div class="d-flex align-items-end flex-grow-1" style="gap:18px;">
-                        <div>
-                            <div class="sub-label">入学年度</div>
-                            <select name="entYear" class="select-box">
-                                <option value="">------</option>
-                                <c:forEach var="year" items="${entYearList}">
-                                    <option value="${year}" <c:if test="${param.entYear == year}">selected</c:if>>${year}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div>
-                            <div class="sub-label">クラス</div>
-                            <select name="classNum" class="select-box">
-                                <option value="">------</option>
-                                <c:forEach var="cls" items="${classNumList}">
-                                    <option value="${cls}" <c:if test="${param.classNum == cls}">selected</c:if>>${cls}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div>
-                            <div class="sub-label">科目</div>
-                            <select name="subjectCd" class="select-box">
-                                <option value="">------</option>
-                                <c:forEach var="sub" items="${subjectList}">
-                                    <option value="${sub.cd}" <c:if test="${param.subjectCd == sub.cd}">selected</c:if>>${sub.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <button type="submit" class="search-btn">検索</button>
-                    </div>
-                  </div>
-                  <input type="hidden" name="sj" value="${subjectInfoCode}">
-                </form>
-
-                <form action="<%=request.getContextPath()%>/main/ScoreReferenceServlet" method="get" autocomplete="off" class="mt-3">
-                  <div class="d-flex align-items-center mb-1">
-                    <span class="info-label">学生情報</span>
-                    <div class="d-flex align-items-center flex-grow-1" style="gap:20px;">
-                        <div>
-                            <div class="sub-label">学生番号</div>
-                            <input type="text" name="studentNo" maxlength="10"
-                                class="form-control student-input d-inline" placeholder="学生番号を入力してください" value="${param.studentNo}">
-                        </div>
-                        <button type="submit" class="search-btn">検索</button>
-                    </div>
-                  </div>
-                  <input type="hidden" name="st" value="${studentInfoCode}">
-                </form>
-
-                <div class="info-message">
-                    ※科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
-                </div>
+                <%-- 検索フォーム部分をインクルード --%>
+                <%@ include file="/scoreReference.jsp" %>
 
                 <div class="result-table-area">
+                    <%-- エラーメッセージの表示 --%>
+                    <c:if test="${not empty error}">
+                        <div class="alert alert-danger mt-3">${error}</div>
+                    </c:if>
+
+                    <%-- 科目情報検索結果の表示 --%>
                     <c:if test="${not empty subjectResult}">
-                        <div class="mb-2">
-                            科目：<span style="font-weight:bold;">${selectedSubjectName}</span>
+                        <div class="mb-2 mt-4">
+                            科目情報 : <span style="font-weight:bold;">${selectedSubjectName}</span>
                         </div>
                         <table class="table table-bordered table-striped mb-0">
                             <thead>
@@ -202,9 +154,10 @@
                         </table>
                     </c:if>
 
+                    <%-- 学生情報検索結果の表示 --%>
                     <c:if test="${not empty studentResult}">
-                        <div class="mb-2">
-                            検索結果：学生情報
+                        <div class="mb-2 mt-4">
+                            学生情報 : <span style="font-weight:bold;">${studentResult.no}</span>
                         </div>
                         <table class="table table-bordered table-striped mb-0">
                             <thead>
@@ -231,10 +184,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </c:if>
-
-                    <c:if test="${not empty error}">
-                        <div class="alert alert-danger mt-3">${error}</div>
                     </c:if>
                 </div>
             </div>

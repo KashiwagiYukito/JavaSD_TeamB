@@ -15,7 +15,7 @@
             <a href="<%=request.getContextPath()%>/main/ScoreListServlet" style="color: #1677ff; text-decoration: underline; font-size: 1.13rem;">成績登録</a>
           </li>
           <li>
-            <a href="<%=request.getContextPath()%>/main/ScoreListServlet" style="color: #1677ff; text-decoration: underline; font-size: 1.13rem;">成績参照</a>
+            <a href="<%=request.getContextPath()%>/main/ScoreReferenceServlet" style="color: #1677ff; text-decoration: underline; font-size: 1.13rem;">成績参照</a>
           </li>
         </ul>
       </li>
