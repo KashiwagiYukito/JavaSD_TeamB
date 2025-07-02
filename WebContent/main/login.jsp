@@ -17,8 +17,8 @@
     }
     /* ログインボックス上下に12pxずつ余白 */
     .login-outer {
-      margin-top: 12px !important;       /* ヘッダーとの間 */
-      margin-bottom: 12px !important;    /* フッターとの間 */
+      margin-top: 20px !important;       /* ヘッダーとの間 */
+      margin-bottom: 20px !important;    /* フッターとの間 */
       padding: 0 !important;
       display: flex;
       flex-direction: column;
