@@ -212,7 +212,7 @@
                                     <tr>
                                         <td>${row.subjectName}</td>
                                         <td>${row.subjectCd}</td>
-                                        <td>${row.no}</td>
+                                        <td>${row.num}</td>
                                         <td>${row.point}</td>
                                     </tr>
                                     </c:if>
