@@ -149,12 +149,6 @@
         <div class="score-list-title">成績管理</div>
         <div class="score-list-searchbox">
             <form action="<%=request.getContextPath()%>/main/ScoreListServlet" method="get" autocomplete="off" id="scoreForm">
-                <%-- デバッグ用情報の削除 --%>
-                <%-- リストサイズ（入学年度）：${fn:length(entYearList)}<br>
-                リスト内容（入学年度）：${entYearList}<br>
-                リストサイズ（クラス）：${fn:length(classNumList)}<br>
-                リストサイズ（科目）：${fn:length(subjectList)}<br>
-                リストサイズ（回数）：${fn:length(testNoList)}<br> --%>
                 <div class="score-list-searchrow">
                     <div class="score-list-searchgroup">
                         <label class="score-list-searchlabel">入学年度</label>
@@ -209,14 +203,18 @@
                       <div style="color: #ff4444;">システムエラーが発生しました。</div>
                   </c:when>
                 </c:choose>
+
                 <c:if test="${not empty scoreList}">
-                  <form action="/main/ScoreRegistServlet" method="post" autocomplete="off">
+                  <!-- ★ 成績削除フォームここから ★ -->
+                  <form action="<%=request.getContextPath()%>/main/ScoreDeleteServlet" method="post"
+                        onsubmit="return confirm('選択した成績を削除してよろしいですか？');">
                       <div style="margin-bottom:0.7em;">
                           科目：${subjectName}（${testNo}回）
                       </div>
                       <table class="table score-table mb-0">
                           <thead>
                               <tr>
+                                  <th>削除</th>
                                   <th>入学年度</th>
                                   <th>クラス</th>
                                   <th>学生番号</th>
@@ -227,6 +225,10 @@
                           <tbody>
                           <c:forEach var="row" items="${scoreList}">
                               <tr>
+                                  <td>
+                                      <input type="checkbox" name="deleteTargets"
+                                             value="${row.studentNo}_${selectedSubjectCd}_${testNo}">
+                                  </td>
                                   <td>${row.entYear}</td>
                                   <td>${row.classNum}</td>
                                   <td>${row.studentNo}</td>
@@ -241,7 +243,13 @@
                           </c:forEach>
                           </tbody>
                       </table>
-                      <button type="submit" class="btn btn-secondary mt-3">登録して終了</button>
+                      <button type="submit" class="btn btn-danger mt-3">選択した成績を削除</button>
+                  </form>
+                  <!-- ★ 成績削除フォームここまで ★ -->
+
+                  <!-- ★ 得点登録フォーム（従来通り点数更新用） ★ -->
+                  <form action="/main/ScoreRegistServlet" method="post" autocomplete="off" style="margin-top: 18px;">
+                      <button type="submit" class="btn btn-secondary">登録して終了</button>
                   </form>
                 </c:if>
             </div>
@@ -253,25 +261,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     const subjectSelect = document.getElementById('subjectSelect');
     const testNoSelect = document.getElementById('testNoSelect');
-
     subjectSelect.addEventListener('change', function() {
         const selectedSubjectCd = this.value;
         if (selectedSubjectCd) {
-            // 科目が選択されたら、その科目コードをURLパラメータに含めてページを再読み込み
-            // これにより、サーバーサイドでtestNoListが正しく取得される
             const url = new URL(window.location.href);
             url.searchParams.set('subjectCd', selectedSubjectCd);
-            url.searchParams.delete('no'); // 科目を変更したら回数はリセット
-            // 他の選択値も保持するために、既存のパラメータを引き継ぐ
+            url.searchParams.delete('no');
             const entYearParam = document.querySelector('select[name="entYear"]').value;
             const classNumParam = document.querySelector('select[name="classNum"]').value;
-
             if (entYearParam) url.searchParams.set('entYear', entYearParam); else url.searchParams.delete('entYear');
             if (classNumParam) url.searchParams.set('classNum', classNumParam); else url.searchParams.delete('classNum');
-
             window.location.href = url.toString();
         } else {
-            // 「------」が選択された場合は回数もリセット
             testNoSelect.innerHTML = '<option value="">------</option>';
         }
     });
