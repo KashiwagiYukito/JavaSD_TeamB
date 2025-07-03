@@ -125,7 +125,7 @@
                     value="<%= request.getAttribute("name") %>" placeholder="科目名を入力してください" required>
             </div>
             <button type="submit" class="subedit-btn">変更</button><br>
-            <a href="subjectList.jsp" class="subedit-back">戻る</a>
+            <a href="<%= request.getContextPath() %>/main/SubjectListServlet" class="back-link">戻る</a>
         </form>
     </div>
 </div>
