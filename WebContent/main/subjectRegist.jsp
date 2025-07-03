@@ -13,17 +13,17 @@
             width: 100vw;
             background: #fff;
         }
-        .sidebar-area {
-            width: 135px;
-            background: #fff;
-            padding-left: 50px;
-            padding-top: 36px;
-            font-size: 1.07em;
-            min-height: calc(100vh - 166px);
-            box-sizing: border-box;
-            position: relative;
-            margin-right: 150px;
-        }
+	        .sidebar-area {
+	  width: 135px;
+	  background: #fff;
+	  padding-left: 50px;
+	  padding-top: 36px;
+	  min-height: calc(100vh - 166px);
+	  font-size: 1.07em;
+	  box-sizing: border-box;
+	  position: relative;
+	  margin-right: 150px;
+	}
         .subject-regist-main {
             flex: 1;
             display: flex;

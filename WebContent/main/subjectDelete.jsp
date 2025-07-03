@@ -7,24 +7,24 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body { background: #fff; margin: 0; }
+        body { background: #fff; margin: 0;font-family: "Meiryo", sans-serif; }
         .main-flex {
             display: flex;
             min-height: calc(100vh - 166px);
             width: 100vw;
             background: #fff;
         }
-        .sidebar-area {
-            width: 135px;
-            background: #fff;
-            padding-left: 50px;
-            padding-top: 36px;
-            min-height: calc(100vh - 166px);
-            font-size: 1.07em;
-            box-sizing: border-box;
-            position: relative;
-            margin-right: 150px;
-        }
+	        .sidebar-area {
+	  width: 135px;
+	  background: #fff;
+	  padding-left: 50px;
+	  padding-top: 36px;
+	  min-height: calc(100vh - 166px);
+	  font-size: 1.07em;
+	  box-sizing: border-box;
+	  position: relative;
+	  margin-right: 150px;
+	}
         .subject-delete-main {
             flex: 1;
             display: flex;
