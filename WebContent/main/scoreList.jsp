@@ -12,6 +12,7 @@
     <style>
         body {
             background: #fff;
+            font-family: "Meiryo", sans-serif;
             margin: 0;
         }
         .main-flex {

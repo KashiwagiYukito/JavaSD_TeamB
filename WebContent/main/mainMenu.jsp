@@ -64,7 +64,7 @@
       max-width: 1150px;
       background: #f4f6f8;
       border-radius: 0.7em 0.7em 0 0;
-      font-size: 2em;
+      font-size: 2.0em;
       font-weight: bold;
       padding: 0.7em 0 0.5em 1.2em;
       margin-bottom: 36px;
