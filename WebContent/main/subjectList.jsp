@@ -19,15 +19,15 @@
             width: 100vw;
         }
         .sidebar-area {
-            width: 135px;
-            background: #fff;
-            padding-left: 50px;
-            padding-top: 36px;
-            min-height: calc(100vh - 166px);
-            font-size: 1.07em;
-            box-sizing: border-box;
-            position: relative;
-            margin-right: 150px;
+        width: 135px;
+        background: #fff;
+        padding-left: 50px;
+        padding-top: 36px;
+        min-height: calc(100vh - 166px);
+        font-size: 1.07em;
+        box-sizing: border-box;
+        position: relative;
+        margin-right: 150px;
         }
         .subject-main-area {
             flex: 1;
