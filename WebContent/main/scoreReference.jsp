@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/style.css">
     <style>
-        body { background: #FFFFFF; }
+        body { background: #FFFFFF;font-family: "Meiryo", sans-serif; }
         .main-flex { display: flex; min-height: calc(100vh - 120px); }
         .sidebar-area { width: 160px; background: #fff; border-right: 1px solid #e0e8ef; padding-top: 28px; padding-left: 20px; }
         .main-content-area { flex: 1; padding: 38px 0 0 0; background: transparent; }
