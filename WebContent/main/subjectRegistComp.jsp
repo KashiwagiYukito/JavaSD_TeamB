@@ -93,7 +93,7 @@
         <div class="msg-success">登録が完了しました</div>
         <div class="main-links">
             <a href="subjectRegist.jsp">戻る</a>
-            <a href="subjectList.jsp">科目一覧</a>
+            <a href="<%=request.getContextPath()%>/main/SubjectListServlet">科目一覧</a>
         </div>
     </div>
 </div>
