@@ -20,7 +20,7 @@ import dao.TestListSubjectDao;
 @WebServlet("/main/ScoreListServlet")
 public class ScoreListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String schoolCd = (String) request.getSession().getAttribute("schoolCd");
+        String schoolCd = (String) request.getSession().getAttribute("schoolCd");
         String entYear = request.getParameter("entYear");
         String classNum = request.getParameter("classNum");
         String subjectCd = request.getParameter("subjectCd");
@@ -30,8 +30,7 @@ public class ScoreListServlet extends HttpServlet {
             testNo = Integer.parseInt(testNoStr);
         }
 
-
-        // プルダウンリストの取得（今まで通り）
+        // プルダウンリストの取得
         try {
             TestListSubjectDao testDao = new TestListSubjectDao();
             SubjectDAO subjectDao = new SubjectDAO();
@@ -40,14 +39,34 @@ public class ScoreListServlet extends HttpServlet {
             List<String> classNumList = testDao.getClassNums(schoolCd);
             List<Subject> subjectList = subjectDao.filterBySchool(schoolCd);
             List<Integer> testNoList = new ArrayList<>();
-            if (subjectCd != null && !subjectCd.isEmpty()) {
-                testNoList = testDao.getTestNos(schoolCd, subjectCd);
+
+            // ★ここを修正★
+            // subjectCdがリクエストパラメータにある場合はそれを使用
+            // 無い場合は、subjectListが空でなければ最初の科目をデフォルトとして使用
+            String actualSubjectCdForTestNo = subjectCd;
+            if ((subjectCd == null || subjectCd.isEmpty()) && !subjectList.isEmpty()) {
+                // JSP側で科目プルダウンの初期選択値を設定できるように、
+                // リクエストパラメータのsubjectCdが空の場合でも、subjectListの最初の科目をデフォルトとして設定
+                actualSubjectCdForTestNo = subjectList.get(0).getCd();
             }
+
+            if (actualSubjectCdForTestNo != null && !actualSubjectCdForTestNo.isEmpty()) {
+                testNoList = testDao.getTestNos(schoolCd, actualSubjectCdForTestNo);
+            }
+            // ★修正ここまで★
+
 
             request.setAttribute("entYearList", entYearList);
             request.setAttribute("classNumList", classNumList);
             request.setAttribute("subjectList", subjectList);
             request.setAttribute("testNoList", testNoList);
+
+            // 選択中の値をリクエスト属性に設定して、JSPで再表示できるようにする
+            request.setAttribute("selectedEntYear", entYear);
+            request.setAttribute("selectedClassNum", classNum);
+            request.setAttribute("selectedSubjectCd", subjectCd); // ユーザーが選択した科目コード
+            request.setAttribute("selectedTestNo", testNoStr); // ユーザーが選択した回数
+
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorType", "system_error");
@@ -56,56 +75,69 @@ public class ScoreListServlet extends HttpServlet {
         }
 
         // 検索条件不足チェックに「testNoStr」も加える
-        if (entYear == null || classNum == null || subjectCd == null || testNoStr == null ||
-            entYear.isEmpty() || classNum.isEmpty() || subjectCd.isEmpty() || testNoStr.isEmpty()) {
-            request.setAttribute("errorType", "lack_condition");
-            request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
-            return;
+        // 初回表示時（検索パラメータがまだない状態）は、検索条件不足としない
+        if (request.getParameterMap().containsKey("entYear") ||
+            request.getParameterMap().containsKey("classNum") ||
+            request.getParameterMap().containsKey("subjectCd") ||
+            request.getParameterMap().containsKey("no")) {
+            if (entYear == null || classNum == null || subjectCd == null || testNoStr == null ||
+                entYear.isEmpty() || classNum.isEmpty() || subjectCd.isEmpty() || testNoStr.isEmpty()) {
+                request.setAttribute("errorType", "lack_condition");
+                request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
+                return;
+            }
         }
+
 
         // 成績リスト検索
-        try {
-            SubjectDAO subjectDAO = new SubjectDAO();
-            SchoolDAO schoolDAO = new SchoolDAO();
-            Subject subject = null;
-            School school = null;
+        // 検索条件がすべて揃っている場合のみ検索を実行
+        if (entYear != null && !entYear.isEmpty() &&
+            classNum != null && !classNum.isEmpty() &&
+            subjectCd != null && !subjectCd.isEmpty() &&
+            testNoStr != null && !testNoStr.isEmpty()) {
             try {
-                subject = subjectDAO.findById(schoolCd, subjectCd);
-                school = schoolDAO.findById(schoolCd);
-            } catch (Exception e) {
-                e.printStackTrace();
-                request.setAttribute("errorType", "system_error");
-                request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
-                return;
-            }
-
-            TestListSubjectDao dao = new TestListSubjectDao();
-            List<TestListSubject> list = null;
-            try {
-
-                list = dao.filter(
-                    Integer.parseInt(entYear), classNum, subject, school, testNo);  // ★引数追加
-            } catch (Exception e) {
-                e.printStackTrace();
-                request.setAttribute("errorType", "system_error");
-                request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
-                return;
-            }
-
-            if (list == null || list.isEmpty()) {
-                request.setAttribute("errorType", "not_found");
-            } else {
-                request.setAttribute("scoreList", list);
-                if (subject != null) {
-                    request.setAttribute("subjectName", subject.getName());
+                SubjectDAO subjectDAO = new SubjectDAO();
+                SchoolDAO schoolDAO = new SchoolDAO();
+                Subject subject = null;
+                School school = null;
+                try {
+                    subject = subjectDAO.findById(schoolCd, subjectCd);
+                    school = schoolDAO.findById(schoolCd);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorType", "system_error");
+                    request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
+                    return;
                 }
-                request.setAttribute("testNo", testNoStr); // 画面に回数も渡す
+
+                TestListSubjectDao dao = new TestListSubjectDao();
+                List<TestListSubject> list = null;
+                try {
+                    list = dao.filter(
+                        Integer.parseInt(entYear), classNum, subject, school, testNo);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorType", "system_error");
+                    request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
+                    return;
+                }
+
+                if (list == null || list.isEmpty()) {
+                    request.setAttribute("errorType", "not_found");
+                } else {
+                    request.setAttribute("scoreList", list);
+                    if (subject != null) {
+                        request.setAttribute("subjectName", subject.getName());
+                    }
+                    request.setAttribute("testNo", testNoStr); // 画面に回数も渡す
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("errorType", "system_error");
+                request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
+                return;
             }
-            request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("errorType", "system_error");
-            request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
         }
+        request.getRequestDispatcher("/main/scoreList.jsp").forward(request, response);
     }
 }

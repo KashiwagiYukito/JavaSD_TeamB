@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ include file="/header.jsp" %>
 <!DOCTYPE html>
@@ -29,19 +30,17 @@
             box-sizing: border-box;
             position: relative;
             margin-right: 150px;
-}
-
+        }
         .main-menu-main {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-          min-width: 0;
-    padding-top: 32px;
-    padding-left: 0;
-    border-left: 1.3px solid #e4e6ed;
+            min-width: 0;
+            padding-top: 32px;
+            padding-left: 0;
+            border-left: 1.3px solid #e4e6ed;
         }
-
         .score-list-title {
             font-size: 2rem;
             font-weight: bold;
@@ -133,7 +132,6 @@
             margin-top: 2px;
             margin-left: 4px;
         }
-
         @media (max-width: 900px) {
             .score-list-searchbox { padding: 1.1rem 0.2rem 1.2rem 0.2rem; }
             .score-list-searchrow { flex-direction: column; gap: 0.7rem; align-items: flex-start; }
@@ -149,20 +147,20 @@
     <div class="main-menu-main">
         <div class="score-list-title">成績管理</div>
         <div class="score-list-searchbox">
-            <form action="<%=request.getContextPath()%>/main/ScoreListServlet" method="get" autocomplete="off">
-            <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-              リストサイズ（入学年度）：${fn:length(entYearList)}<br>
-              リスト内容（入学年度）：${entYearList}<br>
-              リストサイズ（クラス）：${fn:length(classNumList)}<br>
-              リストサイズ（科目）：${fn:length(subjectList)}<br>
-              リストサイズ（回数）：${fn:length(testNoList)}<br>
+            <form action="<%=request.getContextPath()%>/main/ScoreListServlet" method="get" autocomplete="off" id="scoreForm">
+                <%-- デバッグ用情報の削除 --%>
+                <%-- リストサイズ（入学年度）：${fn:length(entYearList)}<br>
+                リスト内容（入学年度）：${entYearList}<br>
+                リストサイズ（クラス）：${fn:length(classNumList)}<br>
+                リストサイズ（科目）：${fn:length(subjectList)}<br>
+                リストサイズ（回数）：${fn:length(testNoList)}<br> --%>
                 <div class="score-list-searchrow">
                     <div class="score-list-searchgroup">
                         <label class="score-list-searchlabel">入学年度</label>
                         <select name="entYear" class="form-select">
                            <option value="">------</option>
                            <c:forEach var="year" items="${entYearList}">
-                              <option value="${year}" <c:if test="${param.entYear == year}">selected</c:if>>${year}</option>
+                                <option value="${year}" <c:if test="${selectedEntYear == year}">selected</c:if>>${year}</option>
                            </c:forEach>
                         </select>
                     </div>
@@ -171,29 +169,27 @@
                         <select name="classNum" class="form-select">
                            <option value="">------</option>
                            <c:forEach var="cls" items="${classNumList}">
-                              <option value="${cls}" <c:if test="${param.classNum == cls}">selected</c:if>>${cls}</option>
+                                <option value="${cls}" <c:if test="${selectedClassNum == cls}">selected</c:if>>${cls}</option>
                            </c:forEach>
                        </select>
-
                     </div>
                     <div class="score-list-searchgroup">
                         <label class="score-list-searchlabel">科目</label>
-                        <select name="subjectCd" class="form-select">
+                        <select name="subjectCd" class="form-select" id="subjectSelect">
                            <option value="">------</option>
                            <c:forEach var="sub" items="${subjectList}">
-                               <option value="${sub.cd}" <c:if test="${param.subjectCd == sub.cd}">selected</c:if>>${sub.name}</option>
+                                <option value="${sub.cd}" <c:if test="${selectedSubjectCd == sub.cd}">selected</c:if>>${sub.name}</option>
                            </c:forEach>
                         </select>
                     </div>
                     <div class="score-list-searchgroup">
                         <label class="score-list-searchlabel">回数</label>
-                        <select name="no" class="form-select">
+                        <select name="no" class="form-select" id="testNoSelect">
                            <option value="">------</option>
                            <c:forEach var="no" items="${testNoList}">
-                               <option value="${no}" <c:if test="${param.no == no}">selected</c:if>>${no}</option>
+                                <option value="${no}" <c:if test="${selectedTestNo == no}">selected</c:if>>${no}</option>
                            </c:forEach>
                         </select>
-
                     </div>
                     <button type="submit" class="score-list-btn">検索</button>
                 </div>
@@ -207,6 +203,9 @@
                   </c:when>
                   <c:when test="${errorType == 'not_found'}">
                       <div style="color: #ff4444;">該当データが見つかりませんでした。</div>
+                  </c:when>
+                  <c:when test="${errorType == 'system_error'}">
+                      <div style="color: #ff4444;">システムエラーが発生しました。</div>
                   </c:when>
                 </c:choose>
                 <c:if test="${not empty scoreList}">
@@ -248,6 +247,36 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const subjectSelect = document.getElementById('subjectSelect');
+    const testNoSelect = document.getElementById('testNoSelect');
+
+    subjectSelect.addEventListener('change', function() {
+        const selectedSubjectCd = this.value;
+        if (selectedSubjectCd) {
+            // 科目が選択されたら、その科目コードをURLパラメータに含めてページを再読み込み
+            // これにより、サーバーサイドでtestNoListが正しく取得される
+            const url = new URL(window.location.href);
+            url.searchParams.set('subjectCd', selectedSubjectCd);
+            url.searchParams.delete('no'); // 科目を変更したら回数はリセット
+            // 他の選択値も保持するために、既存のパラメータを引き継ぐ
+            const entYearParam = document.querySelector('select[name="entYear"]').value;
+            const classNumParam = document.querySelector('select[name="classNum"]').value;
+
+            if (entYearParam) url.searchParams.set('entYear', entYearParam); else url.searchParams.delete('entYear');
+            if (classNumParam) url.searchParams.set('classNum', classNumParam); else url.searchParams.delete('classNum');
+
+            window.location.href = url.toString();
+        } else {
+            // 「------」が選択された場合は回数もリセット
+            testNoSelect.innerHTML = '<option value="">------</option>';
+        }
+    });
+});
+</script>
+
 <%@ include file="/footer.jsp" %>
 </body>
 </html>
