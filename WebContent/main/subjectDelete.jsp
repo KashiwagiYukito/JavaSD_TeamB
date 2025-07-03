@@ -101,7 +101,7 @@
                 <button type="submit" class="delete-btn">削除</button>
             </form>
         </div>
-        <a href="subjectList.jsp" class="back-link">戻る</a>
+        <a href="<%= request.getContextPath() %>/main/SubjectListServlet" class="back-link">戻る</a>
     </div>
 </div>
 <%@ include file="/footer.jsp" %>

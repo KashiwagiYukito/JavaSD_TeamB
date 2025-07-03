@@ -12,6 +12,17 @@
         .main-flex { display: flex; min-height: calc(100vh - 120px); }
         .sidebar-area { width: 160px; background: #fff; border-right: 1px solid #e0e8ef; padding-top: 28px; padding-left: 20px; }
         .main-content-area { flex: 1; padding: 38px 0 0 0; background: transparent; }
+        .sidebar-area {
+           width: 135px;
+           background: #fff;
+           padding-left: 50px;
+           padding-top: 36px;
+           min-height: calc(100vh - 166px);
+           font-size: 1.07em;
+           box-sizing: border-box;
+           position: relative;
+           margin-right: 150px;
+        }
         .section-card {
             max-width: 980px;
             background: #fff;
@@ -20,6 +31,7 @@
             margin: 0 auto;
             border: 1.8px solid #e8edf5;
         }
+
         .section-header {
             font-size: 2em;
             font-weight: bold;
