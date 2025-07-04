@@ -90,7 +90,7 @@
         <div class="delete-title">科目情報削除</div>
         <div class="delete-msg">削除が完了しました</div>
         <div class="delete-links">
-            <a href="subjectList.jsp">科目一覧</a>
+            <a href="<%=request.getContextPath()%>/main/SubjectListServlet">科目一覧</a>
         </div>
     </div>
 </div>
