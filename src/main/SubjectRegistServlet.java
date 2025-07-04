@@ -14,6 +14,9 @@ import dao.SubjectDAO;
 @WebServlet("/main/SubjectRegistServlet")
 public class SubjectRegistServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // ★ ここだけ追加（処理順は他はそのまま）★
+        request.setCharacterEncoding("UTF-8");
+
         String schoolCd = (String) request.getSession().getAttribute("schoolCd");
         String cd = request.getParameter("cd");
         String name = request.getParameter("name");
