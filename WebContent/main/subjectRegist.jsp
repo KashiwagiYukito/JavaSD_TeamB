@@ -119,7 +119,7 @@
                 <input type="text" class="form-control" name="name" placeholder="科目名を入力してください" required>
             </div>
             <button type="submit" class="subreg-btn">登録</button><br>
-            <a href="subjectList.jsp" class="subreg-back">戻る</a>
+            <a href="<%=request.getContextPath()%>/main/SubjectListServlet">戻る</a>
         </form>
     </div>
 </div>
