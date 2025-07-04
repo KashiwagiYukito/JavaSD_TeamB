@@ -10,133 +10,25 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body {
-            background: #fff;
-            font-family: "Meiryo", sans-serif;
-            margin: 0;
-        }
-        .main-flex {
-            display: flex;
-            min-height: calc(100vh - 166px);
-            width: 100vw;
-        }
-	        .sidebar-area {
-	  width: 135px;
-	  background: #fff;
-	  padding-left: 50px;
-	  padding-top: 36px;
-	  min-height: calc(100vh - 166px);
-	  font-size: 1.07em;
-	  box-sizing: border-box;
-	  position: relative;
-	  margin-right: 150px;
-	}
-        .main-menu-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            min-width: 0;
-            padding-top: 32px;
-            padding-left: 0;
-            border-left: 1.3px solid #e4e6ed;
-        }
-        .score-list-title {
-            font-size: 2rem;
-            font-weight: bold;
-            background: #f4f4f4;
-            padding: 0.9rem 1.6rem 0.9rem 1.5rem;
-            border-radius: 0.6rem 0.6rem 0 0;
-            margin-bottom: 16px;
-            border-bottom: 1.5px solid #ececec;
-            width: 100%;
-            max-width: 1000px;
-        }
-        .score-list-searchbox {
-            width: 100%;
-            max-width: 1000px;
-            background: #fff;
-            border: 1.5px solid #dde3e8;
-            border-radius: 0 0 10px 10px;
-            padding: 1.2rem 1.5rem 1.1rem 1.5rem;
-            margin-bottom: 1.7rem;
-            margin-top: 0;
-        }
-        .score-list-searchrow {
-            display: flex;
-            align-items: flex-end;
-            gap: 22px;
-        }
-        .score-list-searchgroup {
-            display: flex;
-            flex-direction: column;
-            min-width: 150px;
-            margin-right: 0.3rem;
-            flex: 1;
-        }
-        .score-list-searchlabel {
-            font-size: 1.05rem;
-            font-weight: bold;
-            margin-bottom: 0.2rem;
-            color: #3b3b3b;
-            letter-spacing: 0.04em;
-        }
-        .form-select {
-            min-width: 110px;
-            max-width: 250px;
-        }
-        .score-list-btn {
-            background: #6c757d;
-            color: #fff;
-            min-width: 90px;
-            border: none;
-            border-radius: 7px;
-            padding: 0.52rem 1.5rem;
-            font-size: 1.10rem;
-            margin-left: 20px;
-            margin-bottom: 2px;
-            box-shadow: 1px 1px 4px #e0e0e0;
-        }
-        .score-list-btn:hover {
-            background: #495057;
-            color: #fff;
-        }
-        .score-table-box {
-            background: #fff;
-            border-radius: 10px;
-            border: 1.5px solid #ececec;
-            margin-top: 1.4rem;
-            padding: 1.4rem 1.2rem 1.2rem 1.2rem;
-        }
-        .score-table th, .score-table td {
-            text-align: left;
-            font-size: 1.08rem;
-            vertical-align: middle;
-            padding: 0.44em 1.2em 0.44em 0.3em;
-        }
-        .score-table th {
-            border-bottom: 2px solid #bbb;
-            font-weight: bold;
-            background: #fff;
-        }
-        .score-table tr {
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .score-input {
-            width: 100px;
-            display: inline-block;
-        }
-        .score-error {
-            color: #ffb84d;
-            font-size: 1.03em;
-            margin-top: 2px;
-            margin-left: 4px;
-        }
-        @media (max-width: 900px) {
-            .score-list-searchbox { padding: 1.1rem 0.2rem 1.2rem 0.2rem; }
-            .score-list-searchrow { flex-direction: column; gap: 0.7rem; align-items: flex-start; }
-            .score-list-btn { margin-left: 0; }
-        }
+        body { background: #fff; font-family: "Meiryo", sans-serif; margin: 0; }
+        .main-flex { display: flex; min-height: calc(100vh - 166px); width: 100vw; }
+        .sidebar-area { width: 135px; background: #fff; padding-left: 50px; padding-top: 36px; border: none; min-height: calc(100vh - 166px); font-size: 1.07em; box-sizing: border-box; position: relative; margin-right: 150px; }
+        .main-menu-main { flex: 1; display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding-top: 32px; padding-left: 0; border-left: 1.3px solid #e4e6ed; }
+        .score-list-title { font-size: 2rem; font-weight: bold; background: #f4f4f4; padding: 0.9rem 1.6rem 0.9rem 1.5rem; border-radius: 0.6rem 0.6rem 0 0; margin-bottom: 16px; border-bottom: 1.5px solid #ececec; width: 100%; max-width: 1000px; }
+        .score-list-searchbox { width: 100%; max-width: 1000px; background: #fff; border: 1.5px solid #dde3e8; border-radius: 0 0 10px 10px; padding: 1.2rem 1.5rem 1.1rem 1.5rem; margin-bottom: 1.7rem; margin-top: 0; }
+        .score-list-searchrow { display: flex; align-items: flex-end; gap: 22px; }
+        .score-list-searchgroup { display: flex; flex-direction: column; min-width: 150px; margin-right: 0.3rem; flex: 1; }
+        .score-list-searchlabel { font-size: 1.05rem; font-weight: bold; margin-bottom: 0.2rem; color: #3b3b3b; letter-spacing: 0.04em; }
+        .form-select { min-width: 110px; max-width: 250px; }
+        .score-list-btn { background: #6c757d; color: #fff; min-width: 90px; border: none; border-radius: 7px; padding: 0.52rem 1.5rem; font-size: 1.10rem; margin-left: 20px; margin-bottom: 2px; box-shadow: 1px 1px 4px #e0e0e0; }
+        .score-list-btn:hover { background: #495057; color: #fff; }
+        .score-table-box { background: #fff; border-radius: 10px; border: 1.5px solid #ececec; margin-top: 1.4rem; padding: 1.4rem 1.2rem 1.2rem 1.2rem; }
+        .score-table th, .score-table td { text-align: left; font-size: 1.08rem; vertical-align: middle; padding: 0.44em 1.2em 0.44em 0.3em; }
+        .score-table th { border-bottom: 2px solid #bbb; font-weight: bold; background: #fff; }
+        .score-table tr { border-bottom: 1px solid #e0e0e0; }
+        .score-input { width: 100px; display: inline-block; }
+        .score-error { color: #ffb84d; font-size: 1.03em; margin-top: 2px; margin-left: 4px; }
+        @media (max-width: 900px) { .score-list-searchbox { padding: 1.1rem 0.2rem 1.2rem 0.2rem; } .score-list-searchrow { flex-direction: column; gap: 0.7rem; align-items: flex-start; } .score-list-btn { margin-left: 0; } }
     </style>
 </head>
 <body>
@@ -148,12 +40,6 @@
         <div class="score-list-title">成績管理</div>
         <div class="score-list-searchbox">
             <form action="<%=request.getContextPath()%>/main/ScoreListServlet" method="get" autocomplete="off" id="scoreForm">
-                <%-- デバッグ用情報の削除 --%>
-                <%-- リストサイズ（入学年度）：${fn:length(entYearList)}<br>
-                リスト内容（入学年度）：${entYearList}<br>
-                リストサイズ（クラス）：${fn:length(classNumList)}<br>
-                リストサイズ（科目）：${fn:length(subjectList)}<br>
-                リストサイズ（回数）：${fn:length(testNoList)}<br> --%>
                 <div class="score-list-searchrow">
                     <div class="score-list-searchgroup">
                         <label class="score-list-searchlabel">入学年度</label>
@@ -208,14 +94,18 @@
                       <div style="color: #ff4444;">システムエラーが発生しました。</div>
                   </c:when>
                 </c:choose>
+
                 <c:if test="${not empty scoreList}">
-                  <form action="/main/ScoreRegistServlet" method="post" autocomplete="off">
+                  <!-- ★ 成績削除フォームここから ★ -->
+                  <form action="<%=request.getContextPath()%>/main/ScoreDeleteServlet" method="post"
+                        onsubmit="return confirm('選択した成績を削除してよろしいですか？');">
                       <div style="margin-bottom:0.7em;">
                           科目：${subjectName}（${testNo}回）
                       </div>
                       <table class="table score-table mb-0">
                           <thead>
                               <tr>
+                                  <th>削除</th>
                                   <th>入学年度</th>
                                   <th>クラス</th>
                                   <th>学生番号</th>
@@ -226,6 +116,10 @@
                           <tbody>
                           <c:forEach var="row" items="${scoreList}">
                               <tr>
+                                  <td>
+                                      <input type="checkbox" name="deleteTargets"
+                                             value="${row.studentNo}_${selectedSubjectCd}_${testNo}">
+                                  </td>
                                   <td>${row.entYear}</td>
                                   <td>${row.classNum}</td>
                                   <td>${row.studentNo}</td>
@@ -240,7 +134,13 @@
                           </c:forEach>
                           </tbody>
                       </table>
-                      <button type="submit" class="btn btn-secondary mt-3">登録して終了</button>
+                      <button type="submit" class="btn btn-danger mt-3">選択した成績を削除</button>
+                  </form>
+                  <!-- ★ 成績削除フォームここまで ★ -->
+
+                  <!-- ★ 得点登録フォーム（従来通り点数更新用） ★ -->
+                  <form action="/main/ScoreRegistServlet" method="post" autocomplete="off" style="margin-top: 18px;">
+                      <button type="submit" class="btn btn-secondary">登録して終了</button>
                   </form>
                 </c:if>
             </div>
@@ -252,25 +152,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     const subjectSelect = document.getElementById('subjectSelect');
     const testNoSelect = document.getElementById('testNoSelect');
-
     subjectSelect.addEventListener('change', function() {
         const selectedSubjectCd = this.value;
         if (selectedSubjectCd) {
-            // 科目が選択されたら、その科目コードをURLパラメータに含めてページを再読み込み
-            // これにより、サーバーサイドでtestNoListが正しく取得される
             const url = new URL(window.location.href);
             url.searchParams.set('subjectCd', selectedSubjectCd);
-            url.searchParams.delete('no'); // 科目を変更したら回数はリセット
-            // 他の選択値も保持するために、既存のパラメータを引き継ぐ
+            url.searchParams.delete('no');
             const entYearParam = document.querySelector('select[name="entYear"]').value;
             const classNumParam = document.querySelector('select[name="classNum"]').value;
-
             if (entYearParam) url.searchParams.set('entYear', entYearParam); else url.searchParams.delete('entYear');
             if (classNumParam) url.searchParams.set('classNum', classNumParam); else url.searchParams.delete('classNum');
-
             window.location.href = url.toString();
         } else {
-            // 「------」が選択された場合は回数もリセット
             testNoSelect.innerHTML = '<option value="">------</option>';
         }
     });
