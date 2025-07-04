@@ -15,10 +15,9 @@
     body {
       display: block;
     }
-    /* ログインボックス上下に12pxずつ余白 */
     .login-outer {
-      margin-top: 20px !important;       /* ヘッダーとの間 */
-      margin-bottom: 20px !important;    /* フッターとの間 */
+      margin-top: 20px !important;
+      margin-bottom: 20px !important;
       padding: 0 !important;
       display: flex;
       flex-direction: column;
@@ -109,14 +108,15 @@
     }
     .login-err {
       color: #d00;
-      background: #fff0f2;
-      border: 1px solid #ffc0cb;
-      border-radius: 10px;
-      text-align: center;
+      text-align: left;
       margin: 12px 24px 0 24px;
-      padding: 8px 0 8px 0;
+      padding: 0;
       font-size: 1em;
       font-weight: 500;
+      background: none;
+      border: none;
+      border-radius: 0;
+      display: block;
     }
     @media (max-width: 700px) {
       .login-box { width: 98vw; min-width: 0; }
@@ -129,16 +129,21 @@
   <div class="login-outer">
     <div class="login-box">
       <div class="login-header">ログイン</div>
-      <% String error = request.getParameter("error");
-         if ("auth".equals(error)) { %>
-          <div class="login-err">
-            ログインに失敗しました。IDまたはパスワードが正しくありません。
-          </div>
-      <% } %>
+      <%
+        String loginError = (String) request.getAttribute("loginError");
+        if (loginError != null) {
+      %>
+        <div class="login-err">
+          <%= loginError %>
+        </div>
+      <%
+        }
+      %>
       <form action="<%= request.getContextPath() %>/main/LoginServlet" method="post" autocomplete="off" class="login-form">
         <div class="input-wrap">
           <label for="login-id" class="input-label-inside">ID</label>
-          <input type="text" name="id" id="login-id" class="login-input" autocomplete="username" required>
+          <input type="text" name="id" id="login-id" class="login-input" autocomplete="username" required
+            value="<%= request.getAttribute("enteredId") != null ? request.getAttribute("enteredId") : "" %>">
         </div>
         <div class="input-wrap">
           <label for="login-pw" class="input-label-inside">パスワード</label>
@@ -155,7 +160,6 @@
     </div>
   </div>
   <script>
-    // パスワード表示/非表示
     document.getElementById('pwshow').addEventListener('change', function() {
       document.getElementById('login-pw').type = this.checked ? 'text' : 'password';
     });
