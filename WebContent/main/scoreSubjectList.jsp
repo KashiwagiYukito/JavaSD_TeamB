@@ -150,42 +150,43 @@
     <div class="main-menu-main">
         <div class="score-title">成績一覧（科目）</div>
         <div class="score-searchbox">
-            <form action="<%= request.getContextPath() %>/main/ScoreSubjectListServlet" method="get" autocomplete="off">
-
-
-                <!-- 1段目: 科目情報 -->
-                <div class="score-search-form-row">
-                    <div class="score-search-label">科目情報</div>
-                    <select name="entYear" class="form-select score-search-select">
-                        <option value="">------</option>
-                        <c:forEach var="year" items="${entYearList}">
-                            <option value="${year}" <c:if test="${param.entYear == year}">selected</c:if>>${year}</option>
-                        </c:forEach>
-                    </select>
-                    <select name="classNum" class="form-select score-search-select">
-                        <option value="">------</option>
-                        <c:forEach var="cls" items="${classNumList}">
-                            <option value="${cls}" <c:if test="${param.classNum == cls}">selected</c:if>>${cls}</option>
-                        </c:forEach>
-                    </select>
-                    <select name="subjectCd" class="form-select score-search-select">
-                        <option value="">------</option>
-                        <c:forEach var="subj" items="${subjectList}">
-                            <option value="${subj.cd}" <c:if test="${param.subjectCd == subj.cd}">selected</c:if>>${subj.name}</option>
-                        </c:forEach>
-                    </select>
-                    <button type="submit" class="score-search-btn">検索</button>
-                </div>
-                <hr class="score-searchbox-divider">
-                <!-- 2段目: 学生情報 -->
-                <div class="score-search-form-row2">
-                    <div class="score-search-label">学生情報</div>
-                    <input type="text" class="form-control score-search-input" name="studentNo" value="${param.studentNo}" placeholder="学生番号を入力してください">
-                    <button type="submit" class="score-search-btn">検索</button>
-                </div>
-            </form>
+    <!-- 1段目: 科目情報 検索フォーム（この画面のまま再表示） -->
+    <form action="<%= request.getContextPath() %>/main/ScoreSubjectListServlet" method="get" autocomplete="off">
+        <div class="score-search-form-row">
+            <div class="score-search-label">科目情報</div>
+            <select name="entYear" class="form-select score-search-select">
+                <option value="">------</option>
+                <c:forEach var="year" items="${entYearList}">
+                    <option value="${year}" <c:if test="${param.entYear == year}">selected</c:if>>${year}</option>
+                </c:forEach>
+            </select>
+            <select name="classNum" class="form-select score-search-select">
+                <option value="">------</option>
+                <c:forEach var="cls" items="${classNumList}">
+                    <option value="${cls}" <c:if test="${param.classNum == cls}">selected</c:if>>${cls}</option>
+                </c:forEach>
+            </select>
+            <select name="subjectCd" class="form-select score-search-select">
+                <option value="">------</option>
+                <c:forEach var="subj" items="${subjectList}">
+                    <option value="${subj.cd}" <c:if test="${param.subjectCd == subj.cd}">selected</c:if>>${subj.name}</option>
+                </c:forEach>
+            </select>
+            <button type="submit" class="score-search-btn">検索</button>
         </div>
+    </form>
 
+    <hr class="score-searchbox-divider">
+
+    <!-- 2段目: 学生番号 検索フォーム（学生別画面へ遷移） -->
+    <form action="<%= request.getContextPath() %>/main/ScoreListStudentServlet" method="get" autocomplete="off">
+        <div class="score-search-form-row2">
+            <div class="score-search-label">学生情報</div>
+            <input type="text" class="form-control score-search-input" name="studentNo" value="" placeholder="学生番号を入力してください">
+            <button type="submit" class="score-search-btn">検索</button>
+        </div>
+    </form>
+</div>
         <c:if test="${errorType == 'not_found'}">
             <div class="no-score">学生情報が存在しませんでした</div>
         </c:if>

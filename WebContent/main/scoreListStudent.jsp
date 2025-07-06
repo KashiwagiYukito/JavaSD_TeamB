@@ -142,50 +142,54 @@
     <div class="main-menu-main">
         <div class="score-title">成績一覧（学生）</div>
         <div class="score-searchbox">
-            <form action="scoreListStudentServlet" method="get" autocomplete="off">
-                <div class="score-searchrow">
-                    <div class="score-searchgroup">
-                        <div class="score-searchlabel">科目情報</div>
-                        <select name="entYear" class="form-select">
-                            <option value="">------</option>
-                            <c:forEach var="year" items="${entYearList}">
-                                <option value="${year}" <c:if test="${param.entYear == year}">selected</c:if>>${year}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="score-searchgroup">
-                        <div class="score-searchlabel">クラス</div>
-                        <select name="classNum" class="form-select">
-                            <option value="">------</option>
-                            <c:forEach var="cls" items="${classNumList}">
-                                <option value="${cls}" <c:if test="${param.classNum == cls}">selected</c:if>>${cls}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="score-searchgroup">
-                        <div class="score-searchlabel">科目</div>
-                        <select name="subjectCd" class="form-select">
-                            <option value="">------</option>
-                            <c:forEach var="subj" items="${subjectList}">
-                                <option value="${subj.cd}" <c:if test="${param.subjectCd == subj.cd}">selected</c:if>>${subj.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <button type="submit" class="score-btn">検索</button>
-                </div>
-                <hr>
-                <div class="score-searchrow">
-                    <div class="score-searchgroup">
-                        <div class="score-searchlabel">学生情報</div>
-                        <input type="text" class="form-control" name="studentNo" value="${param.studentNo}" placeholder="学生番号" required>
-                        <c:if test="${not empty errorStudentNo}">
-                            <div class="error-msg">このフィールドを入力してください。</div>
-                        </c:if>
-                    </div>
-                    <button type="submit" class="score-btn">検索</button>
-                </div>
-            </form>
+    <!-- 科目情報で検索（科目別成績一覧画面へ遷移） -->
+    <form action="ScoreSubjectListServlet" method="get" autocomplete="off">
+        <div class="score-searchrow">
+            <div class="score-searchgroup">
+                <div class="score-searchlabel">科目情報</div>
+                <select name="entYear" class="form-select">
+                    <option value="">------</option>
+                    <c:forEach var="year" items="${entYearList}">
+                        <option value="${year}" <c:if test="${param.entYear == year}">selected</c:if>>${year}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="score-searchgroup">
+                <div class="score-searchlabel">クラス</div>
+                <select name="classNum" class="form-select">
+                    <option value="">------</option>
+                    <c:forEach var="cls" items="${classNumList}">
+                        <option value="${cls}" <c:if test="${param.classNum == cls}">selected</c:if>>${cls}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="score-searchgroup">
+                <div class="score-searchlabel">科目</div>
+                <select name="subjectCd" class="form-select">
+                    <option value="">------</option>
+                    <c:forEach var="subj" items="${subjectList}">
+                        <option value="${subj.cd}" <c:if test="${param.subjectCd == subj.cd}">selected</c:if>>${subj.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <button type="submit" class="score-btn">検索</button>
         </div>
+    </form>
+    <hr>
+    <!-- 学生情報で検索（この画面で学生成績表示） -->
+    <form action="ScoreListStudentServlet" method="get" autocomplete="off">
+        <div class="score-searchrow">
+            <div class="score-searchgroup">
+                <div class="score-searchlabel">学生情報</div>
+                <input type="text" class="form-control" name="studentNo" value="${param.studentNo}" placeholder="学生番号" required>
+                <c:if test="${not empty errorStudentNo}">
+                    <div class="error-msg">このフィールドを入力してください。</div>
+                </c:if>
+            </div>
+            <button type="submit" class="score-btn">検索</button>
+        </div>
+    </form>
+</div>
         <!-- 検索結果：学生情報＆成績テーブル -->
         <c:if test="${not empty studentInfo}">
             <div class="student-label">

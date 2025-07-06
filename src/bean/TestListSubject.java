@@ -12,6 +12,7 @@ public class TestListSubject {
     private Map<Integer, Integer> points = new HashMap<>();
     private Integer point1;
     private Integer point2;
+    private String pointStr;
 
 
     public TestListSubject() {}
@@ -95,5 +96,13 @@ public class TestListSubject {
     }
     public void setPoint2(Integer point2) {
         this.point2 = point2;
+    }
+
+    public String getPointStr() {
+        return pointStr;
+    }
+
+    public void setPointStr(String pointStr) {
+        this.pointStr = pointStr;
     }
 }

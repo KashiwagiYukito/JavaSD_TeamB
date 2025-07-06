@@ -18,11 +18,11 @@ import dao.TestListSubjectDao;
 
 @WebServlet("/main/ScoreListStudentServlet")
 public class ScoreListStudentServlet extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String studentNo = request.getParameter("studentNo");
         String schoolCd = (String) request.getSession().getAttribute("schoolCd");
 
-        // ▼--- ここでリストを取得 ---▼
+        // ▼--- プルダウンリスト取得 ---▼
         TestListSubjectDao subDao = new TestListSubjectDao();
         List<Integer> entYearList = null;
         List<String> classNumList = null;
@@ -35,12 +35,11 @@ public class ScoreListStudentServlet extends HttpServlet {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        // ▼--- JSPに渡す ---▼
         request.setAttribute("entYearList", entYearList);
         request.setAttribute("classNumList", classNumList);
         request.setAttribute("subjectList", subjectList);
 
-        // ▼--- 以下は今まで通り ---▼
+        // ▼--- 学生情報・成績リストの取得 ---▼
         List<TestListStudent> studentScoreList = null;
         Student studentInfo = null;
 
@@ -49,21 +48,21 @@ public class ScoreListStudentServlet extends HttpServlet {
             try {
                 studentInfo = sDao.filterByNo(studentNo);
                 if (studentInfo != null) {
+                    // 学生が存在する場合は成績リスト取得
                     TestListStudentDao dao = new TestListStudentDao();
                     studentScoreList = dao.filter(studentInfo);
-
-
-                    if (studentScoreList != null) {
-                        for (TestListStudent s : studentScoreList) {
-                            System.out.println("subject=" + s.getSubjectName() + ", cd=" + s.getSubjectCd() + ", num=" + s.getNum() + ", point=" + s.getPoint());
-                        }
-                    }
+                } else {
+                    // 学生が存在しない場合も「氏名：（未登録） 学籍番号」形式でJSP表示するため仮のStudentをセット
+                    studentInfo = new Student();
+                    studentInfo.setName("（未登録）");
+                    studentInfo.setNo(studentNo); // フィールド名はStudent.javaに合わせて
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("errorMsg", "データベースエラーが発生しました。");
             }
         }
+
         request.setAttribute("studentInfo", studentInfo);
         request.setAttribute("studentScoreList", studentScoreList);
         request.getRequestDispatcher("/main/scoreListStudent.jsp").forward(request, response);
