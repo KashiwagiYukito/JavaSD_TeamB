@@ -13,11 +13,11 @@ import bean.TestListStudent;
 public class TestListStudentDao extends DAO {
     // 成績一覧（学生）の基本SQL
     private static final String baseSql =
-        "SELECT s.name AS subject_name, s.cd AS subject_cd, t.num, t.point " +
-        "FROM test t " +
-        "JOIN subject s ON t.subject_cd = s.cd " +
+        "SELECT s.name AS subject_name, s.cd AS subject_cd, t.no, t.point " +
+    	"FROM test t " +
+    	"JOIN subject s ON t.subject_cd = s.cd AND t.school_cd = s.school_cd " +
         "WHERE t.student_no = ? " +
-        "ORDER BY s.cd, t.num";
+        "ORDER BY s.cd, t.no";
 
     /**
      * 学生に紐づく成績一覧を取得
@@ -47,7 +47,7 @@ public class TestListStudentDao extends DAO {
             TestListStudent bean = new TestListStudent();
             bean.setSubjectName(rs.getString("subject_name"));
             bean.setSubjectCd(rs.getString("subject_cd"));
-            bean.setNum(rs.getInt("num"));
+            bean.setNum(rs.getInt("no"));
             bean.setPoint(rs.getInt("point"));
             list.add(bean);
         }

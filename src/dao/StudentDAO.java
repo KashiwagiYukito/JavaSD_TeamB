@@ -52,7 +52,7 @@ public class StudentDAO extends DAO {
                     s.setName(rs.getString("NAME"));
                     s.setEntYear(rs.getInt("ENT_YEAR"));
                     s.setClassNum(rs.getString("CLASS_NUM"));
-                    s.setAttend(rs.getBoolean("ATTEND"));
+                    //s.setAttend(rs.getBoolean("IS_ATTEND"));
                     // 他にカラムがあれば適宜追加
                     return s;
                 }

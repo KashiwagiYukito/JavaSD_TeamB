@@ -8,21 +8,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/style.css">
     <style>
-        body { background: #FFFFFF;font-family: "Meiryo", sans-serif; }
+        body { background: #f7fafd; }
         .main-flex { display: flex; min-height: calc(100vh - 120px); }
         .sidebar-area { width: 160px; background: #fff; border-right: 1px solid #e0e8ef; padding-top: 28px; padding-left: 20px; }
         .main-content-area { flex: 1; padding: 38px 0 0 0; background: transparent; }
-        .sidebar-area {
-           width: 135px;
-           background: #fff;
-           padding-left: 50px;
-           padding-top: 36px;
-           min-height: calc(100vh - 166px);
-           font-size: 1.07em;
-           box-sizing: border-box;
-           position: relative;
-           margin-right: 150px;
-        }
         .section-card {
             max-width: 980px;
             background: #fff;
@@ -31,7 +20,6 @@
             margin: 0 auto;
             border: 1.8px solid #e8edf5;
         }
-
         .section-header {
             font-size: 2em;
             font-weight: bold;
@@ -80,14 +68,11 @@
         }
         .search-btn:hover { background: #495057; }
         .info-message {
-            color: #25b0e7;
-            font-size: 1.08em;
-            margin: 18px 0 6px 10px;
-            letter-spacing: 0.03em;
-            /* Modified to match the provided CSS for the second JSP */
-            margin-left: 2px; /* Adjusted from 10px */
-            margin-top: 8px;  /* Adjusted from 18px */
-            text-align: left; /* Added based on the provided CSS for the second JSP */
+            color: #2590e2;
+            font-size: 1.07em;
+            margin-left: 2px;
+            margin-top: 8px;
+            text-align: left;
         }
         .student-input {
             min-width: 320px;
@@ -96,8 +81,11 @@
             border-radius: 10px;
             padding: 7px 15px;
         }
-        .result-table-area {
-            margin-top: 32px;
+        .info-message {
+            color: #25b0e7;
+            font-size: 1.08em;
+            margin: 18px 0 6px 10px;
+            letter-spacing: 0.03em;
         }
         @media (max-width: 900px) {
             .section-body { padding: 20px 8px 12px 8px; }
@@ -117,11 +105,16 @@
         <div class="section-card">
             <div class="section-header">成績参照</div>
             <div class="section-body">
-                <form action="<%=request.getContextPath()%>/main/ScoreReferenceServlet" method="get" autocomplete="off" style="margin-bottom: 0;">
+
+                <!-- 科目情報（検索フォーム1） -->
+                <form action="<%=request.getContextPath()%>/main/ScoreSubjectListServlet" method="get" autocomplete="off" style="margin-bottom: 0;">
+
                   <div class="d-flex align-items-center mb-1 pb-2" style="border-bottom:1.3px solid #eaeaea;">
                     <span class="info-label">科目情報</span>
                     <div class="d-flex align-items-end flex-grow-1" style="gap:18px;">
                         <div>
+
+
                             <div class="sub-label">入学年度</div>
                             <select name="entYear" class="select-box">
                                 <option value="">------</option>
@@ -130,6 +123,7 @@
                                 </c:forEach>
                             </select>
                         </div>
+
                         <div>
                             <div class="sub-label">クラス</div>
                             <select name="classNum" class="select-box">
@@ -144,7 +138,7 @@
                             <select name="subjectCd" class="select-box">
                                 <option value="">------</option>
                                 <c:forEach var="sub" items="${subjectList}">
-                                    <option value="${sub.cd}" <c:if test="${param.subjectCd == sub.cd}">selected</c:if>>${sub.name}</option>
+                                    <option value="${sub.cd}">${sub.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -154,7 +148,8 @@
                   <input type="hidden" name="sj" value="${subjectInfoCode}">
                 </form>
 
-                <form action="<%=request.getContextPath()%>/main/ScoreReferenceServlet" method="get" autocomplete="off" class="mt-3">
+                <!-- 学生情報（検索フォーム2） -->
+                <form action="<%=request.getContextPath()%>/main/ScoreListStudentServlet" method="get" autocomplete="off" class="mt-3">
                   <div class="d-flex align-items-center mb-1">
                     <span class="info-label">学生情報</span>
                     <div class="d-flex align-items-center flex-grow-1" style="gap:20px;">
@@ -168,86 +163,9 @@
                   </div>
                   <input type="hidden" name="st" value="${studentInfoCode}">
                 </form>
-
+                <!-- ↓ この位置に案内文を配置 -->
                 <div class="info-message">
                     ※科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
-                </div>
-
-                <div class="result-table-area">
-                    <c:if test="${not empty subjectResult}">
-                        <div class="mb-2">
-                            科目：<span style="font-weight:bold;">${selectedSubjectName}</span>
-                        </div>
-                        <table class="table table-bordered table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th>入学年度</th>
-                                    <th>クラス</th>
-                                    <th>学生番号</th>
-                                    <th>氏名</th>
-                                    <th>1回</th>
-                                    <th>2回</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="s" items="${subjectResult}">
-                                    <tr>
-                                        <td>${s.entYear}</td>
-                                        <td>${s.classNum}</td>
-                                        <td>${s.no}</td>
-                                        <td>${s.name}</td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${s.score1 != null}">${s.score1}</c:when>
-                                                <c:otherwise>-</c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${s.score2 != null}">${s.score2}</c:when>
-                                                <c:otherwise>-</c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:if>
-
-                    <c:if test="${not empty studentResult}">
-                        <div class="mb-2">
-                            検索結果：学生情報
-                        </div>
-                        <table class="table table-bordered table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th>入学年度</th>
-                                    <th>学生番号</th>
-                                    <th>氏名</th>
-                                    <th>クラス</th>
-                                    <th>在学中</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>${studentResult.entYear}</td>
-                                    <td>${studentResult.no}</td>
-                                    <td>${studentResult.name}</td>
-                                    <td>${studentResult.classNum}</td>
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${studentResult.attend}">○</c:when>
-                                            <c:otherwise>×</c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </c:if>
-
-                    <c:if test="${not empty error}">
-                        <div class="alert alert-danger mt-3">${error}</div>
-                    </c:if>
                 </div>
             </div>
         </div>

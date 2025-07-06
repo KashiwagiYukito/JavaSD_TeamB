@@ -10,6 +10,9 @@ public class TestListSubject {
     private String classNum;
     private String errorPoint;
     private Map<Integer, Integer> points = new HashMap<>();
+    private Integer point1;
+    private Integer point2;
+
 
     public TestListSubject() {}
 
@@ -66,8 +69,31 @@ public class TestListSubject {
         return (value != null) ? String.valueOf(value) : "-";
     }
 
+    public Integer getPointInt(int key) {
+        return points.get(key);
+    }
+
+    public Integer getPointInteger(int key) {
+        return points.get(key);
+    }
+
+
     // 点数マップへ値セット
     public void putPoint(int key, int value) {
         points.put(key, value);
+    }
+
+    public Integer getPoint1() {
+        // point1がnullならpointsマップから取得
+        return (point1 != null) ? point1 : points.get(1);
+    }
+    public void setPoint1(Integer point1) {
+        this.point1 = point1;
+    }
+    public Integer getPoint2() {
+        return (point2 != null) ? point2 : points.get(2);
+    }
+    public void setPoint2(Integer point2) {
+        this.point2 = point2;
     }
 }

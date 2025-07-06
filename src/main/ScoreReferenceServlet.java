@@ -31,7 +31,7 @@ public class ScoreReferenceServlet extends HttpServlet {
         System.out.println("ScoreReferenceServlet: doGetメソッドが呼び出されました。");
         try {
             // セレクトボックスに必要なリストを設定
-            setSelectLists(request);
+        	setSelectLists(request);
 
             // 初期表示は検索画面 (scoreReference.jsp) にフォワード
             request.getRequestDispatcher("/main/scoreReference.jsp").forward(request, response);
@@ -78,7 +78,7 @@ public class ScoreReferenceServlet extends HttpServlet {
 
             // 結果をフォワードするJSPは常に /main/scoreReference_done.jsp になります。
             // 検索条件が不足している場合も、このページでエラーメッセージを表示します。
-            String forwardPath = "/main/scoreReference_done.jsp"; 
+            String forwardPath = "/main/scoreReference_done.jsp";
 
             if (isStudentSearch) {
                 System.out.println("学生番号で検索を実行します。");
@@ -114,6 +114,11 @@ public class ScoreReferenceServlet extends HttpServlet {
         List<Integer> entYearList = testListSubjectDao.getEntYears(SCHOOL_CD);
         List<String> classNumList = testListSubjectDao.getClassNums(SCHOOL_CD);
         List<Subject> subjectList = subjectDao.filterBySchool(SCHOOL_CD);
+
+        // ここでリストの中身を出力してみる（デバッグ用）
+        System.out.println("entYearList=" + entYearList);
+        System.out.println("classNumList=" + classNumList);
+        System.out.println("subjectList=" + subjectList);
 
         request.setAttribute("entYearList", entYearList);
         request.setAttribute("classNumList", classNumList);

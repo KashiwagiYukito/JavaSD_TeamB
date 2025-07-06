@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body { background: #fff; margin: 0; font-family: "Meiryo", sans-serif;}
+        body { background: #fff; margin: 0; }
         .main-flex {
             display: flex;
             min-height: calc(100vh - 166px);
@@ -150,7 +150,13 @@
     <div class="main-menu-main">
         <div class="score-title">成績一覧（科目）</div>
         <div class="score-searchbox">
-            <form action="/main/ScoreSubjectListServlet" method="get" autocomplete="off">
+            <form action="<%= request.getContextPath() %>/main/ScoreSubjectListServlet" method="get" autocomplete="off">
+            <c:out value="${entYearList}" /><br>
+<c:out value="${classNumList}" /><br>
+<c:forEach var="sub" items="${subjectList}">
+  cd=[${sub.cd}] name=[${sub.name}]<br>
+</c:forEach>
+
                 <!-- 1段目: 科目情報 -->
                 <div class="score-search-form-row">
                     <div class="score-search-label">科目情報</div>
@@ -216,7 +222,7 @@
                                 <td>${row.entYear}</td>
                                 <td>${row.classNum}</td>
                                 <td>${row.studentNo}</td>
-                                <td>${row.name}</td>
+                                <td>${row.studentName}</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${not empty row.point1}">${row.point1}</c:when>

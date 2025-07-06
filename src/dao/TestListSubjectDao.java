@@ -86,6 +86,7 @@ public class TestListSubjectDao extends DAO {
 	                }
 	            }
 	        }
+	        System.out.println("getEntYears(" + schoolCd + ") => " + list);
 	        return list;
 	    }
 
