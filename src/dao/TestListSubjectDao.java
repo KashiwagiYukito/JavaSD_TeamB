@@ -130,4 +130,39 @@ public class TestListSubjectDao extends DAO {
 	    }
 
 
+	    /**
+	     * 学生の点数を更新（またはINSERT）する
+	     */
+	    public void updatePoint(String studentNo, String subjectCd, String schoolCd, int testNo, int point) throws Exception {
+	        // ★カラム名を明示的に指定！
+	        String sql = "MERGE INTO TEST (student_no, subject_cd, school_cd, no, point) KEY(student_no, subject_cd, school_cd, no) VALUES (?, ?, ?, ?, ?)";
+	        try (Connection conn = getConnection();
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
+	            ps.setString(1, studentNo);
+	            ps.setString(2, subjectCd);
+	            ps.setString(3, schoolCd);
+	            ps.setInt(4, testNo);
+	            ps.setInt(5, point);
+	            ps.executeUpdate();
+	        }
+	    }
+
+
+
+
+	    /**
+	     * 学生の成績を削除する
+	     */
+	    public void deletePoint(String studentNo, String subjectCd, String schoolCd, int testNo) throws Exception {
+	        String sql = "DELETE FROM TEST WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND SCHOOL_CD = ? AND NO = ?";
+	        try (Connection conn = getConnection();
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
+	            ps.setString(1, studentNo);
+	            ps.setString(2, subjectCd);
+	            ps.setString(3, schoolCd);
+	            ps.setInt(4, testNo);
+	            ps.executeUpdate();
+	        }
+	    }
+
 }

@@ -96,9 +96,12 @@
                 </c:choose>
 
                 <c:if test="${not empty scoreList}">
-                  <!-- ★ 成績削除フォームここから ★ -->
-                  <form action="<%=request.getContextPath()%>/main/ScoreDeleteServlet" method="post"
-                        onsubmit="return confirm('選択した成績を削除してよろしいですか？');">
+                  <!-- ★ 成績削除＋得点登録フォームここから ★ -->
+                  <form action="<%=request.getContextPath()%>/main/ScoreRegistServlet" method="post" autocomplete="off">
+                       <input type="hidden" name="entYear" value="${selectedEntYear}">
+                       <input type="hidden" name="classNum" value="${selectedClassNum}">
+                       <input type="hidden" name="subjectCd" value="${selectedSubjectCd}">
+                       <input type="hidden" name="testNo" value="${selectedTestNo}">
                       <div style="margin-bottom:0.7em;">
                           科目：${subjectName}（${testNo}回）
                       </div>
@@ -115,61 +118,44 @@
                           </thead>
                           <tbody>
                           <c:forEach var="row" items="${scoreList}">
-                              <tr>
-                                  <td>
-                                      <input type="checkbox" name="deleteTargets"
-                                             value="${row.studentNo}_${selectedSubjectCd}_${testNo}">
-                                  </td>
-                                  <td>${row.entYear}</td>
-                                  <td>${row.classNum}</td>
-                                  <td>${row.studentNo}</td>
-                                  <td>${row.studentName}</td>
-                                  <td>
-                                      <input type="text" name="point_${row.studentNo}" value="${row.getPoint(testNo)}" class="score-input form-control form-control-sm">
-                                      <c:if test="${not empty row.errorPoint}">
-                                          <div class="score-error">0～100の範囲で入力してください</div>
-                                      </c:if>
-                                  </td>
-                              </tr>
+                            <tr>
+                              <td>
+                                  <input type="checkbox" name="deleteTargets"
+                                         value="${row.studentNo}_${selectedSubjectCd}_${testNo}">
+                              </td>
+                              <td>${row.entYear}</td>
+                              <td>${row.classNum}</td>
+                              <td>${row.studentNo}</td>
+                              <td>${row.studentName}</td>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${not empty row.pointStr}">
+                                    <input type="text" name="point_${row.studentNo}" value="${row.pointStr}" class="score-input form-control form-control-sm">
+                                  </c:when>
+                                  <c:when test="${row.getPoint(testNo) != null}">
+                                    <input type="text" name="point_${row.studentNo}" value="${row.getPoint(testNo)}" class="score-input form-control form-control-sm">
+                                  </c:when>
+                                  <c:otherwise>
+                                    <input type="text" name="point_${row.studentNo}" value="" class="score-input form-control form-control-sm">
+                                  </c:otherwise>
+                                </c:choose>
+                                <c:if test="${not empty row.errorPoint}">
+                                  <div class="score-error">${row.errorPoint}</div>
+                                </c:if>
+                              </td>
+                            </tr>
                           </c:forEach>
                           </tbody>
                       </table>
-                      <button type="submit" class="btn btn-danger mt-3">選択した成績を削除</button>
+                      <button type="submit" name="action" value="delete" class="btn btn-danger mt-3" onclick="return confirm('選択した成績を削除してよろしいですか？');">選択した成績を削除</button>
+                      <button type="submit" name="action" value="register" class="btn btn-secondary mt-3">登録して終了</button>
                   </form>
-                  <!-- ★ 成績削除フォームここまで ★ -->
-
-                  <!-- ★ 得点登録フォーム（従来通り点数更新用） ★ -->
-                  <form action="/main/ScoreRegistServlet" method="post" autocomplete="off" style="margin-top: 18px;">
-                      <button type="submit" class="btn btn-secondary">登録して終了</button>
-                  </form>
+                  <!-- ★ 成績削除＋得点登録フォームここまで ★ -->
                 </c:if>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const subjectSelect = document.getElementById('subjectSelect');
-    const testNoSelect = document.getElementById('testNoSelect');
-    subjectSelect.addEventListener('change', function() {
-        const selectedSubjectCd = this.value;
-        if (selectedSubjectCd) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('subjectCd', selectedSubjectCd);
-            url.searchParams.delete('no');
-            const entYearParam = document.querySelector('select[name="entYear"]').value;
-            const classNumParam = document.querySelector('select[name="classNum"]').value;
-            if (entYearParam) url.searchParams.set('entYear', entYearParam); else url.searchParams.delete('entYear');
-            if (classNumParam) url.searchParams.set('classNum', classNumParam); else url.searchParams.delete('classNum');
-            window.location.href = url.toString();
-        } else {
-            testNoSelect.innerHTML = '<option value="">------</option>';
-        }
-    });
-});
-</script>
-
 <%@ include file="/footer.jsp" %>
 </body>
 </html>

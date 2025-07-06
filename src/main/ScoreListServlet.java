@@ -40,21 +40,27 @@ public class ScoreListServlet extends HttpServlet {
             List<Subject> subjectList = subjectDao.filterBySchool(schoolCd);
             List<Integer> testNoList = new ArrayList<>();
 
-            // ★ここを修正★
-            // subjectCdがリクエストパラメータにある場合はそれを使用
-            // 無い場合は、subjectListが空でなければ最初の科目をデフォルトとして使用
+            // ★ここから修正
             String actualSubjectCdForTestNo = subjectCd;
             if ((subjectCd == null || subjectCd.isEmpty()) && !subjectList.isEmpty()) {
-                // JSP側で科目プルダウンの初期選択値を設定できるように、
-                // リクエストパラメータのsubjectCdが空の場合でも、subjectListの最初の科目をデフォルトとして設定
                 actualSubjectCdForTestNo = subjectList.get(0).getCd();
             }
 
             if (actualSubjectCdForTestNo != null && !actualSubjectCdForTestNo.isEmpty()) {
                 testNoList = testDao.getTestNos(schoolCd, actualSubjectCdForTestNo);
-            }
-            // ★修正ここまで★
 
+                // ▼ここで「1」「2」を必ずセット
+                if (testNoList == null || testNoList.isEmpty()) {
+                    testNoList = new ArrayList<>();
+                    testNoList.add(1);
+                    testNoList.add(2);
+                }
+            } else {
+                testNoList = new ArrayList<>();
+                testNoList.add(1);
+                testNoList.add(2);
+            }
+            // ★ここまで修正
 
             request.setAttribute("entYearList", entYearList);
             request.setAttribute("classNumList", classNumList);
@@ -65,7 +71,7 @@ public class ScoreListServlet extends HttpServlet {
             request.setAttribute("selectedEntYear", entYear);
             request.setAttribute("selectedClassNum", classNum);
             request.setAttribute("selectedSubjectCd", subjectCd); // ユーザーが選択した科目コード
-            request.setAttribute("selectedTestNo", testNoStr); // ユーザーが選択した回数
+            request.setAttribute("selectedTestNo", testNoStr);    // ユーザーが選択した回数
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,7 +81,6 @@ public class ScoreListServlet extends HttpServlet {
         }
 
         // 検索条件不足チェックに「testNoStr」も加える
-        // 初回表示時（検索パラメータがまだない状態）は、検索条件不足としない
         if (request.getParameterMap().containsKey("entYear") ||
             request.getParameterMap().containsKey("classNum") ||
             request.getParameterMap().containsKey("subjectCd") ||
@@ -88,9 +93,7 @@ public class ScoreListServlet extends HttpServlet {
             }
         }
 
-
         // 成績リスト検索
-        // 検索条件がすべて揃っている場合のみ検索を実行
         if (entYear != null && !entYear.isEmpty() &&
             classNum != null && !classNum.isEmpty() &&
             subjectCd != null && !subjectCd.isEmpty() &&

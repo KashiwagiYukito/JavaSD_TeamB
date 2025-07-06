@@ -106,8 +106,8 @@
         <div class="score-title">成績管理</div>
         <div class="score-comp-msg">登録が完了しました</div>
         <div class="score-links">
-            <a href="scoreRegist.jsp">戻る</a>
-            <a href="scoreSearch.jsp">成績参照</a>
+            <a href="<%=request.getContextPath()%>/main/ScoreListServlet">戻る</a>
+            <a href="<%=request.getContextPath()%>/main/ScoreReferenceServlet">成績参照</a>
         </div>
     </div>
 </div>
