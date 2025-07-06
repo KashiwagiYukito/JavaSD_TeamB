@@ -8,10 +8,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/style.css">
     <style>
-        body { background: #f7fafd; }
+        body { background: #FFFFFF;font-family: "Meiryo", sans-serif; }
         .main-flex { display: flex; min-height: calc(100vh - 120px); }
-        .sidebar-area { width: 160px; background: #fff; border-right: 1px solid #e0e8ef; padding-top: 28px; padding-left: 20px; }
         .main-content-area { flex: 1; padding: 38px 0 0 0; background: transparent; }
+        .sidebar-area {
+           width: 135px;
+           background: #fff;
+           padding-left: 50px;
+           padding-top: 36px;
+           padding-right: 200px;
+           min-height: calc(100vh - 166px);
+           font-size: 1.07em;
+           box-sizing: border-box;
+           position: relative;
+           margin-right: 60px;
+           border-right: 1.5px solid #e0e8ef;
+        }
         .section-card {
             max-width: 980px;
             background: #fff;
@@ -20,6 +32,7 @@
             margin: 0 auto;
             border: 1.8px solid #e8edf5;
         }
+
         .section-header {
             font-size: 2em;
             font-weight: bold;
@@ -68,11 +81,14 @@
         }
         .search-btn:hover { background: #495057; }
         .info-message {
-            color: #2590e2;
-            font-size: 1.07em;
-            margin-left: 2px;
-            margin-top: 8px;
-            text-align: left;
+            color: #25b0e7;
+            font-size: 1.08em;
+            margin: 18px 0 6px 10px;
+            letter-spacing: 0.03em;
+            /* Modified to match the provided CSS for the second JSP */
+            margin-left: 2px; /* Adjusted from 10px */
+            margin-top: 8px;  /* Adjusted from 18px */
+            text-align: left; /* Added based on the provided CSS for the second JSP */
         }
         .student-input {
             min-width: 320px;
@@ -81,11 +97,8 @@
             border-radius: 10px;
             padding: 7px 15px;
         }
-        .info-message {
-            color: #25b0e7;
-            font-size: 1.08em;
-            margin: 18px 0 6px 10px;
-            letter-spacing: 0.03em;
+        .result-table-area {
+            margin-top: 32px;
         }
         @media (max-width: 900px) {
             .section-body { padding: 20px 8px 12px 8px; }
