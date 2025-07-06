@@ -147,7 +147,7 @@
                           </c:forEach>
                           </tbody>
                       </table>
-                      <button type="submit" name="action" value="delete" class="btn btn-danger mt-3" onclick="return confirm('選択した成績を削除してよろしいですか？');">選択した成績を削除</button>
+                      <button type="submit" name="action" value="delete" class="btn btn-danger mt-3" onclick="return confirm('選択した成績を削除してよろしいですか？');">選択した成績を削除</button><br>
                       <button type="submit" name="action" value="register" class="btn btn-secondary mt-3">登録して終了</button>
                   </form>
                   <!-- ★ 成績削除＋得点登録フォームここまで ★ -->
