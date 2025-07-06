@@ -27,7 +27,6 @@ public class ScoreSubjectListServlet extends HttpServlet {
             SubjectDAO subjectDAO = new SubjectDAO();
             TestListSubjectDao dao = new TestListSubjectDao();
 
-            // 常にリストをセットしてJSPに渡す
             List<Subject> subjectList = subjectDAO.filterBySchool(schoolCd);
             List<Integer> entYearList = dao.getEntYears(schoolCd);
             List<String> classNumList = dao.getClassNums(schoolCd);
@@ -36,7 +35,6 @@ public class ScoreSubjectListServlet extends HttpServlet {
             request.setAttribute("entYearList", entYearList);
             request.setAttribute("classNumList", classNumList);
 
-            // 入力チェック（testNoStrは不要）
             if (entYearStr == null || entYearStr.isEmpty()
                     || classNum == null || classNum.isEmpty()
                     || subjectCd == null || subjectCd.isEmpty()) {
@@ -45,23 +43,19 @@ public class ScoreSubjectListServlet extends HttpServlet {
                 return;
             }
 
-            // 検索条件OKの場合のみ成績一覧取得
             int entYear = Integer.parseInt(entYearStr);
 
             SchoolDAO schoolDAO = new SchoolDAO();
             Subject subject = subjectDAO.findById(schoolCd, subjectCd);
             School school = schoolDAO.findById(schoolCd);
 
-            // 1回目
             List<TestListSubject> test1 = dao.filter(entYear, classNum, subject, school, 1);
-            // 2回目
             List<TestListSubject> test2 = dao.filter(entYear, classNum, subject, school, 2);
 
-            // 学生番号でマージ
             java.util.Map<String, TestListSubject> map = new java.util.LinkedHashMap<>();
             for (TestListSubject t : test1) {
                 map.put(t.getStudentNo(), t);
-                t.setPoint1(t.getPointInteger(1)); // ← StringではなくIntegerで渡す
+                t.setPoint1(t.getPointInteger(1));
             }
             for (TestListSubject t : test2) {
                 TestListSubject existing = map.get(t.getStudentNo());
@@ -73,10 +67,21 @@ public class ScoreSubjectListServlet extends HttpServlet {
                 }
             }
 
-
             List<TestListSubject> scoreList = new java.util.ArrayList<>(map.values());
 
-            if (scoreList.isEmpty()) {
+            // ★ここで"点数が一つもない"ならscoreListを空にする
+            boolean allEmpty = true;
+            for (TestListSubject t : scoreList) {
+                // 1回も2回もnullか空なら→点数なし
+                Integer p1 = t.getPoint1();
+                Integer p2 = t.getPoint2();
+                if ((p1 != null && p1 >= 0) || (p2 != null && p2 >= 0)) {
+                    allEmpty = false;
+                    break;
+                }
+            }
+
+            if (scoreList.isEmpty() || allEmpty) {
                 request.setAttribute("errorType", "not_found");
             } else {
                 request.setAttribute("subjectScoreList", scoreList);
