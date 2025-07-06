@@ -33,6 +33,7 @@ public class SubjectEditServlet extends HttpServlet {
 
 	    // POSTリクエスト：更新実行（今まで通り）
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    	request.setCharacterEncoding("UTF-8");
 	        String cd = request.getParameter("cd");
 	        String name = request.getParameter("name");
 	        String schoolCd = (String) request.getSession().getAttribute("schoolCd");

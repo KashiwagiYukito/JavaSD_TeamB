@@ -15,6 +15,7 @@ import dao.SubjectDAO;
 @WebServlet("/main/SubjectListServlet")
 public class SubjectListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	request.setCharacterEncoding("UTF-8");
         try {
             String schoolCd = (String) request.getSession().getAttribute("schoolCd");
             System.out.println("schoolCd=" + schoolCd);

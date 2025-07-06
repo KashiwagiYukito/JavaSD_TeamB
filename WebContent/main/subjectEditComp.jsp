@@ -95,7 +95,7 @@
         <div class="subedit-title">科目情報変更</div>
         <div class="subedit-comp-msg">変更が完了しました</div>
         <div class="subedit-links">
-            <a href="subjectList.jsp">科目一覧</a>
+            <a href="<%=request.getContextPath()%>/main/SubjectListServlet">科目一覧</a>
         </div>
     </div>
 </div>
