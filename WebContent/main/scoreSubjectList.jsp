@@ -151,11 +151,7 @@
         <div class="score-title">成績一覧（科目）</div>
         <div class="score-searchbox">
             <form action="<%= request.getContextPath() %>/main/ScoreSubjectListServlet" method="get" autocomplete="off">
-            <c:out value="${entYearList}" /><br>
-<c:out value="${classNumList}" /><br>
-<c:forEach var="sub" items="${subjectList}">
-  cd=[${sub.cd}] name=[${sub.name}]<br>
-</c:forEach>
+
 
                 <!-- 1段目: 科目情報 -->
                 <div class="score-search-form-row">
