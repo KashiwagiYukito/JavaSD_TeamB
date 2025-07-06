@@ -41,7 +41,7 @@ public class ScoreSubjectListServlet extends HttpServlet {
                     || classNum == null || classNum.isEmpty()
                     || subjectCd == null || subjectCd.isEmpty()) {
                 request.setAttribute("errorType", "lack_condition");
-                request.getRequestDispatcher("/main/scoreSubjectList.jsp").forward(request, response);
+                request.getRequestDispatcher("/main/scoreReference.jsp").forward(request, response);
                 return;
             }
 

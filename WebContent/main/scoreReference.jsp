@@ -169,7 +169,9 @@
                         <div>
                             <div class="sub-label">学生番号</div>
                             <input type="text" name="studentNo" maxlength="10"
-                                class="form-control student-input d-inline" placeholder="学生番号を入力してください" value="${param.studentNo}">
+                                class="form-control student-input d-inline"
+                                placeholder="学生番号を入力してください"
+                            required>
                         </div>
                         <button type="submit" class="search-btn">検索</button>
                     </div>
@@ -177,6 +179,12 @@
                   <input type="hidden" name="st" value="${studentInfoCode}">
                 </form>
                 <!-- ↓ この位置に案内文を配置 -->
+                <!-- エラーメッセージ -->
+                <c:if test="${errorType == 'lack_condition'}">
+                    <div style="color: #ffb84d; font-size: 1.03em; margin-top: 2px; margin-left: 4px;">
+                       入学年度とクラスと科目を選択してください
+                    </div>
+                </c:if>
                 <div class="info-message">
                     ※科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
                 </div>

@@ -185,10 +185,7 @@
                 </div>
             </form>
         </div>
-        <!-- エラーメッセージ -->
-        <c:if test="${errorType == 'lack_condition'}">
-            <div class="error-msg">入学年度とクラスと科目を選択してください</div>
-        </c:if>
+
         <c:if test="${errorType == 'not_found'}">
             <div class="no-score">学生情報が存在しませんでした</div>
         </c:if>
