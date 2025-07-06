@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@ include file="/header.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -94,6 +96,15 @@
         .subreg-back:hover {
             color: #165eea;
             text-decoration: underline;
+
+        }
+        .error-msg {
+            color: #ffb84d;
+            font-size: 1.07em;
+            margin-bottom: 6px;
+            margin-top: 2px;
+            font-weight: normal;
+            display: block;
         }
         @media (max-width: 800px) {
             .subreg-title { font-size: 1.2rem; }
@@ -112,11 +123,19 @@
         <form class="subreg-form" action="<%= request.getContextPath() %>/main/SubjectRegistServlet" method="post" autocomplete="off">
             <div class="mb-2">
                 <div class="subreg-label">科目コード</div>
-                <input type="text" class="form-control" name="cd" placeholder="科目コードを入力してください" required>
+                <input type="text" class="form-control" name="cd" value="${cd}" placeholder="科目コードを入力してください" required>
+                <c:if test="${not empty cd}">
+                    <c:if test="${errorType == 'length'}">
+                        <div class="error-msg">科目コードは3文字で入力してください</div>
+                    </c:if>
+                <c:if test="${errorType == 'duplicate'}">
+                    <div class="error-msg">科目コードが重複しています</div>
+                </c:if>
+               </c:if>
             </div>
             <div class="mb-2">
                 <div class="subreg-label">科目名</div>
-                <input type="text" class="form-control" name="name" placeholder="科目名を入力してください" required>
+                <input type="text" class="form-control" name="name" value="${name}" placeholder="科目名を入力してください" required>
             </div>
             <button type="submit" class="subreg-btn">登録</button><br>
             <a href="<%=request.getContextPath()%>/main/SubjectListServlet">戻る</a>

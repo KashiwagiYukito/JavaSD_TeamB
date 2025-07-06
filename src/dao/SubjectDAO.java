@@ -133,4 +133,23 @@ public class SubjectDAO extends DAO {
         return list;
     }
 
+    /**
+     * 指定された学校コードと科目コードが既に存在するか確認します。
+     * @param schoolCd 学校コード
+     * @param cd 科目コード
+     * @return true: 重複あり, false: 重複なし
+     * @throws Exception データベース操作時の例外
+     */
+    public boolean existsBySchoolCdAndCd(String schoolCd, String cd) throws Exception {
+        String sql = "SELECT 1 FROM SUBJECT WHERE SCHOOL_CD = ? AND CD = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, schoolCd);
+            ps.setString(2, cd);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // レコードがあれば重複
+            }
+        }
+    }
+
 }
